@@ -2,7 +2,7 @@ Package: agricolaeplotr
 Type: Package
 Title: Visualization of Design of Experiments from the 'agricolae'
         Package
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: 
     person(family="Harbers", given="Jens", email="jensharbers@gmail.com", role=c("aut","cre"),
            comment = c(ORCID = "0000-0001-6634-623X"))
@@ -24,7 +24,7 @@ Depends: R (>= 3.6)
 VignetteBuilder: knitr
 Note: 'agricolae' is a package name 'ggplot2' is a package name
 NeedsCompilation: no
-Packaged: 2021-07-08 16:02:56 UTC; Jens Harbers
+Packaged: 2021-07-20 18:23:25 UTC; Jens Harbers
 Author: Jens Harbers [aut, cre] (<https://orcid.org/0000-0001-6634-623X>)
 Repository: CRAN
-Date/Publication: 2021-07-09 08:20:05 UTC
+Date/Publication: 2021-07-20 18:30:02 UTC

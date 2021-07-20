@@ -316,7 +316,7 @@ plot_design.factorial_rcbd <- function(design,
 }
 
 #### plot design crd ####
-#' #' Plot Completely Randomized Design
+#' Plot Complete Randomized Design
 #'
 #' Plot a design of a factorial experiment with randomized complete block design from \code{agricolae} design.ab
 #' @param design outdesign from \code{agricolae} package
@@ -358,6 +358,7 @@ plot_design_crd <- function(design,
   if (design$parameters$design == "crd") {
 
     plots <- as.numeric(design$book[, 1])
+    if (ncols * nrows >= length(plots)) {
     nas <- rep(NaN, ncols * nrows - length(plots))
     plots <- c(plots, nas)
 
@@ -395,7 +396,12 @@ plot_design_crd <- function(design,
     plt
 
     return(plt)
-
+    } else {
+      stop(paste("You have in multiplication of ncols:",
+                 ncols, "and nrows:", nrows, "Elements.",
+                 "You need at minimum a product of both higher than",
+                 length(plots)))
+    }
   } else {
     stop(paste0("This is not the correct function for your experiment design.
           A design from a factorial design with a
@@ -552,10 +558,13 @@ plot_lattice_triple <- function(design,
     test_name_in_column(labels, design)
 
     table <- design$book
-    table$part <- rep(1:max(table(table[, y])),
-                      times = length(unique(table[, factor_name])))
+    max_b <- max(table(table[, y]))
+
+    table$part <- rep(1:max_b,
+                      times = length(table[, y])/max_b)
     table[, y] <- as.numeric(table[, y]) * height
     table$part <- table$part * width
+
     if (reverse_y == TRUE) {
       table$part <- abs(table$part - max(table$part)) +
         min(table$part)
@@ -1409,6 +1418,7 @@ plot_design.factorial_crd <- function(design,
     test_name_in_column(labels, design)
 
     plots <- as.numeric(design$book[, 1])
+    if (ncols * nrows >= length(plots)) {
     nas <- rep(NaN, ncols * nrows - length(plots))
     plots <- c(plots, nas)
 
@@ -1443,7 +1453,12 @@ plot_design.factorial_crd <- function(design,
                 colour = "black")
 
     return(plt)
-
+    } else {
+      stop(paste("You have in multiplication of ncols:",
+                 ncols, "and nrows:", nrows, "Elements.",
+                 "You need at minimum a product of both higher than",
+                 length(plots)))
+    }
   } else {
     stop(paste0("This is not the correct function for your experiment design.
           A design from a factorial design with
@@ -1875,7 +1890,7 @@ plot_split_crd <- function(design, nrows, ncols,
     test_name_in_column(labels, design)
 
     plots <- as.numeric(unique(design$book[, 1]))
-    if (ncols * nrows > length(plots)) {
+    if (ncols * nrows >= length(plots)) {
       nas <- rep(NaN, (ncols * nrows) - length(plots))
       plots <- c(plots, nas)
 
