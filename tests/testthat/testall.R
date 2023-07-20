@@ -1,80 +1,67 @@
 test_that("throws error if data type is not an integer but a string", {
-  expect_error(test_input_width("3"))
+  expect_error(test_input_extend("3"))
 })
 test_that("throws error if data type is not an integer but a float", {
-  expect_error(test_input_width(-2.5))
+  expect_error(test_input_extend(-2.5))
 })
 test_that("throws error if data type is not an integer but a boolean", {
-  expect_error(test_input_width(TRUE))
+  expect_error(test_input_extend(TRUE))
 })
 sd <- "cat2"
 test_that("throws error if data type is not an integer
           but an object containg string", {
-  expect_error(test_input_width(sd))
+  expect_error(test_input_extend(sd))
 })
 
 test_that("throws error if data type is not an integer but an float", {
-  expect_silent(test_input_width(2.5))
+  expect_silent(test_input_extend(2.5))
 })
 test_that("keeps silent if data type is correct integer ", {
-  expect_silent(test_input_width(2))
+  expect_silent(test_input_extend(2))
 })
 sd <- 10.5
 test_that("throws error if data type is not an integer
           but an object containing float ", {
-  expect_silent(test_input_width(sd))
+  expect_silent(test_input_extend(sd))
 })
 
 test_that("throws error if data type is not an integer but a string", {
-  expect_error(test_input_height("3"))
+  expect_error(test_input_extend("3"))
 })
 test_that("throws error if data type is not an integer but float", {
-  expect_error(test_input_height(-2.5))
+  expect_error(test_input_extend(-2.5))
 })
 test_that("throws error if data type is not an integer but boolean", {
-  expect_error(test_input_height(TRUE))
+  expect_error(test_input_extend(TRUE))
 })
 sd <- "cat2"
 test_that("throws error if data type is not an
           integer but an object containg a string", {
-  expect_error(test_input_height(sd))
+  expect_error(test_input_extend(sd))
 })
 
 test_that("throws error if data type is not an integer but ", {
-  expect_silent(test_input_height(2.5))
+  expect_silent(test_input_extend(2.5))
 })
 test_that("throws error if data type is not an integer but ", {
-  expect_silent(test_input_height(2))
+  expect_silent(test_input_extend(2))
 })
 sd <- 10.5
 test_that("throws error if data type is not an integer but ", {
-  expect_silent(test_input_height(sd))
+  expect_silent(test_input_extend(sd))
 })
 
 test_that("keeps silent if data type is a boolean", {
-  expect_silent(test_input_reverse_x(TRUE))
+  expect_silent(test_input_reverse(TRUE))
 })  # no messages if success
 test_that("throws error if data type is not an boolean but a string", {
-  expect_error(test_input_reverse_x("TRUE"))
+  expect_error(test_input_reverse("TRUE"))
 })
 test_that("throws error if data type is not an boolean but an integer", {
-  expect_error(test_input_reverse_x(2))
+  expect_error(test_input_reverse(2))
 })
 test_that("throws error if length is greater than 1", {
-  expect_error(test_input_reverse_x(c(2, 3, 4)))
-})
-
-test_that("keeps silent if data type is a boolean", {
-  expect_silent(test_input_reverse_y(TRUE))
-})  # no messages if success
-test_that("throws error if data type is not an boolean but a string", {
-  expect_error(test_input_reverse_y("TRUE"))
-})
-test_that("throws error if data type is not an boolean but an integer", {
-  expect_error(test_input_reverse_y(2))
-})
-test_that("throws error if length is greater than 1", {
-  expect_error(test_input_reverse_y(c(2, 3, 4)))
+  expect_error(test_input_reverse(c(2, 3, 4)))
 })
 
 test_that("unkown treatment", {
@@ -667,7 +654,7 @@ test_that("plot a split plot design rcbd  for subplots", {
                        reverse_x = TRUE, reverse_y = TRUE, factor_name_1 = "t1",
                        factor_name_2 = "t2")
   p <- p + theme_poster()
-  p
+
   expect_identical(p$labels$y, "block")
 })
 
@@ -768,5 +755,95 @@ test_that("plot a split plot design lsd for main plots", {
 
   p
   expect_identical(p$labels$y, "block")
+
+})
+
+
+test_that("plot has correct properties", {
+  trt<-LETTERS[1:5]
+  outdesign<- design.lsd(trt,serie=2)
+
+  p <- plot_latin_square(outdesign, space_width = 0.9, width = 3, height = 5,space_height = 0.9)
+  stats <- DOE_obj(p)
+  expect_equal(stats$total_area, 375)
+  expect_equal(stats$space_between, 71.25)
+  expect_equal(stats$eff_total_area, 303.75)
+  expect_equal(stats$eff_area_total, 360.15)
+  expect_equal(stats$outer_area, 360.15)
+  expect_equal(stats$outer_area, stats$eff_area_total)
+
+
+  expect_equal(stats$rel_space_width, 0.9)
+  expect_equal(stats$rel_space_height, 0.9)
+  expect_equal(stats$share_eff_plot, 0.81)
+  expect_equal(stats$share_space_plot, 0.19)
+
+  expect_equal(stats$gross_width_plot, 3)
+  expect_equal(stats$gross_height_plot, 5)
+  expect_equal(stats$total_area_plot, 15)
+  expect_equal(stats$eff_plot_size, 12.15)
+
+  expect_equal(stats$eff_width, 14.7)
+  expect_equal(stats$eff_height, 24.5)
+  expect_equal(stats$eff_width_plot, 2.7)
+  expect_equal(stats$eff_height_plot, 4.5)
+  expect_equal(stats$abs_space_height, 0.5)
+  expect_equal(stats$abs_space_width, 0.3)
+
+  expect_equal(stats$net_plot_diagonal, 5.25)
+  expect_equal(stats$gross_plot_diagonal, 5.83)
+  expect_equal(stats$experiment_diagonal, 20.8)
+  expect_equal(stats$outer_diagonal, 28.6)
+
+  expect_equal(stats$xmin, 1.65)
+  expect_equal(stats$xmax, 16.35)
+  expect_equal(stats$ymin, 2.75)
+  expect_equal(stats$ymax, 27.25)
+  expect_equal(stats$n_cols, 5)
+  expect_equal(stats$n_rows, 5)
+  expect_equal(stats$n_plots, 25)
+  expect_equal(stats$n_fac, 5)
+
+})
+
+test_that("plot a plot design from FielDHub package shows ROW as y axis", {
+SpatpREP1 <- partially_replicated(nrows = 25,
+                                  ncols = 18,
+                                  repGens = c(280,50,10,1,1),
+                                  repUnits = c(1,2,3,20,20),
+                                  planter = "cartesian",
+                                  plotNumber = 101,
+                                  seed = 77)
+
+p <- plot_fieldhub(SpatpREP1,
+labels = "PLOT",
+factor_name = "PLOT",
+width = 12,
+height = 10,
+reverse_y = TRUE,
+reverse_x = TRUE)
+  expect_identical(p$labels$y, "ROW")
+
+})
+
+test_that("plot a plot design from FielDHub package shows COLUMN as x axis", {
+  SpatpREP1 <- partially_replicated(nrows = 25,
+                                    ncols = 8,
+                                    repGens = c(30,50,10,1,1),
+                                    repUnits = c(1,2,3,20,20),
+                                    planter = "cartesian",
+                                    plotNumber = 101,
+                                    seed = 77)
+
+  p <- plot_fieldhub(SpatpREP1,
+                     labels = "PLOT",
+                     factor_name = "TREATMENT",
+                     width = 12,
+                     height = 10,
+                     reverse_y = TRUE,
+                     reverse_x = TRUE)
+
+
+  expect_identical(p$labels$x, "COLUMN")
 
 })

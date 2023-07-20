@@ -55,39 +55,17 @@ test_input_nrows <- function(x) {
 }
 
 
-#' Test if input for width is numeric
+#' Test if input for width and height is numeric
 #'
-#' Test if input is numeric for field width
+#' Test if input is numeric for field width and height
 #' @param x input to be tested
 #'
 #' @return error
 #' @export
 #' @examples
 #' library(agricolaeplotr)
-#' test_input_width(3)
-test_input_width <- function(x) {
-
-  if (is.numeric(x) == FALSE) {
-    stop(paste0("Value is not numeric. It is from class ",
-                class(x), "."))
-  } else {
-    if (x <= 0) {
-      stop("Integer value is smaller or equal than zero.
-           The value needs to be greater than zero.")
-    }
-  }
-}
-
-#' Test if input for height is numeric
-#'
-#' Test if input is numeric for field height
-#' @param x input to be tested
-#' @export
-#' @return error
-#' @examples
-#' library(agricolaeplotr)
-#' test_input_height(5)
-test_input_height <- function(x) {
+#' test_input_extend(3)
+test_input_extend <- function(x) {
 
   if (is.numeric(x) == FALSE) {
     stop(paste0("Value is not numeric. It is from class ",
@@ -101,6 +79,23 @@ test_input_height <- function(x) {
 }
 
 
+#' Test if input for shift parameter is numeric
+#'
+#' Test if input is numeric for shift parameter
+#' @param x input to be tested
+#' @export
+#' @return error
+#' @examples
+#' library(agricolaeplotr)
+#' test_input_shift(0.5)
+test_input_shift <- function(x) {
+
+  if (is.numeric(x) == FALSE) {
+    stop(paste0("Value is not numeric. It is from class ",
+                class(x), "."))
+  }
+}
+
 
 #' Test if input is a logical
 #'
@@ -111,28 +106,8 @@ test_input_height <- function(x) {
 #' @export
 #' @examples
 #' library(agricolaeplotr)
-#' test_input_reverse_x(TRUE)
-test_input_reverse_x <- function(x) {
-  if ((length(x)) > 1) {
-    stop("The length of one boolean value needs to be exact 1.")
-  }
-  if (is.logical(x) == FALSE) {
-    stop(paste0("Value is not logical. Only TRUE and FALSE are allowed.
-                Your value is from class ",
-                class(x), "."))
-  }
-}
-#' Test if input is a logical
-#'
-#' Test if input is a logical
-#' @param x input to be tested
-#'
-#' @return error
-#' @export
-#' @examples
-#' library(agricolaeplotr)
-#' test_input_reverse_y(TRUE)
-test_input_reverse_y <- function(x) {
+#' test_input_reverse(TRUE)
+test_input_reverse <- function(x) {
   if ((length(x)) > 1) {
     stop("The length of one boolean value needs to be exact 1.")
   }
@@ -253,14 +228,14 @@ plot_design.factorial_rcbd <- function(design,
 
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name, design)
     plots <- as.numeric(design$book[, 1])
@@ -455,14 +430,14 @@ plot_alpha <- function(design, x = "cols", y = "block",
     test_string(x)
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(labels, design)
     test_name_in_column(factor_name, design)
@@ -545,14 +520,14 @@ plot_lattice_triple <- function(design,
 
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name, design)
     test_name_in_column(labels, design)
@@ -639,14 +614,14 @@ plot_lattice_simple <- function(design,
 
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name, design)
     test_name_in_column(labels, design)
@@ -734,14 +709,14 @@ plot_latin_square <- function(design,
     test_string(x)
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name, design)
     test_name_in_column(labels, design)
@@ -822,14 +797,14 @@ plot_graeco <- function(design,
     test_string(x)
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name, design)
     test_name_in_column(labels, design)
@@ -917,14 +892,14 @@ plot_strip <- function(design,
     test_string(x)
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name_1, design)
     test_name_in_column(factor_name_2, design)
@@ -1025,14 +1000,14 @@ plot_bib <- function(design,
 
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name, design)
     test_name_in_column(labels, design)
@@ -1115,14 +1090,14 @@ plot_cyclic <- function(design,
 
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(labels, design)
 
@@ -1206,14 +1181,14 @@ plot_dau <- function(design,
 
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name, design)
     test_name_in_column(labels, design)
@@ -1223,7 +1198,7 @@ plot_dau <- function(design,
     seqx <- function(x) {
       return(1:x)
     }
-    col <- sapply(freq, seqx)
+    col <- lapply(freq, seqx)
     table$col <- unlist(col)
 
 
@@ -1303,21 +1278,21 @@ plot_rcdb <- function(design,
 
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name, design)
     test_name_in_column(labels, design)
 
     table <- as.data.frame(design$book)
 
-    table$col <- rep(1:length(unique(table[, factor_name])),
+    table$col <- rep(seq_len(length(unique(table[, factor_name]))),
                      length(unique(table[, y])))
     table[, y] <- as.numeric(table[, y])
     if (reverse_y == TRUE) {
@@ -1405,14 +1380,14 @@ plot_design.factorial_crd <- function(design,
 
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name, design)
     test_name_in_column(labels, design)
@@ -1516,14 +1491,14 @@ plot_design.factorial_lsd <- function(design,
     test_string(x)
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name, design)
     test_name_in_column(labels, design)
@@ -1614,14 +1589,14 @@ plot_split_rcbd <- function(design,
 
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name_1, design)
     test_name_in_column(factor_name_2, design)
@@ -1630,7 +1605,7 @@ plot_split_rcbd <- function(design,
 
     table <- design$book
 
-    table$row <- rep(rep(1:length(unique(table[, factor_name_1])),
+    table$row <- rep(rep(seq_len(length(unique(table[, factor_name_1]))),
                          each=length(unique(table[, factor_name_2]))),
                      times=max(as.numeric(table[, y])))
     table$row <- table$row * width
@@ -1743,14 +1718,14 @@ plot_split_lsd <- function(design,
   if (design$parameters$design == "split" && design$parameters$applied ==
       "lsd") {
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name_1, design)
     test_name_in_column(factor_name_2, design)
@@ -1878,12 +1853,12 @@ plot_split_crd <- function(design, nrows, ncols,
     test_input_ncols(ncols)
     test_input_nrows(nrows)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
-    test_input_height(height)
-    test_input_width(width)
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
+    test_input_extend(height)
+    test_input_extend(width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name_1, design)
     test_name_in_column(factor_name_2, design)
@@ -1920,7 +1895,7 @@ plot_split_crd <- function(design, nrows, ncols,
       seqx <- function(x) {
         return(1:x)
       }
-      sequence_numbers <- sapply(freq, seqx)
+      sequence_numbers <- lapply(freq, seqx)
 
       table$sequence <- unlist(sequence_numbers)
 
@@ -2083,14 +2058,14 @@ plot_youden <- function(design, x = "col", y = "row",
     test_string(x)
     test_string(y)
 
-    test_input_reverse_x(reverse_x)
-    test_input_reverse_y(reverse_y)
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
 
-    test_input_height(height)
-    test_input_width(width)
+    test_input_extend(height)
+    test_input_extend(width)
 
-    test_input_height(space_height)
-    test_input_width(space_width)
+    test_input_extend(space_height)
+    test_input_extend(space_width)
 
     test_name_in_column(factor_name, design)
     test_name_in_column(labels, design)
@@ -2129,7 +2104,735 @@ plot_youden <- function(design, x = "col", y = "row",
 
 }
 
-# example("plot_split_lsd")
-# table$t1 und table$t2 mit  factor_name_1 und factor_name_2 austauschen
-# table$trt durch factor_name
-# table$TRT
+#' Measures of a Field Design
+#'
+#' Returns a list with several useful information about the experiment
+#'
+#' @param p \code{ggplot} object containing the data of the plot
+#'
+#' @return a list with several useful information about the experiment and the field
+#' @export
+#'
+#' @examples
+#' library(agricolae)
+#' library(agricolaeplotr)
+#' trt = c(2,3,4,5,6)
+#' outdesign1 <-design.crd(trt,r=5,serie=2,2543,'Mersenne-Twister')
+#' p <- plot_design_crd(outdesign1,
+#'              ncols = 7,
+#'              nrows = 4,
+#'              width = 10,
+#'              height = 10,
+#'              reverse_y = TRUE)
+#' stats <- DOE_obj(p)
+#' stats
+DOE_obj <- function(p){
+
+  res <- list()
+  dat <- layer_data(p)
+
+  res$eff_width <- diff(range(dat$xmin,dat$xmax)) # nettoweite versuch
+  res$eff_height <- diff(range(dat$ymin,dat$ymax)) # nettohoehe versuch
+  res$eff_area_total <- res$eff_height * res$eff_width
+
+  res$eff_width_plot <- dat$width[1] # netto weite parzelle
+  res$eff_height_plot <- dat$height[1] # netto hoehe parzelle
+  res$eff_plot_size <- res$eff_width_plot * res$eff_height_plot # netto groesse je parzelle
+  res$eff_total_area <- res$eff_plot_size * dim(dat)[1] # netto Nutzfl?che unter Parzelle
+
+  res$gross_width_plot <- min(dat$x) # bruttobreite Parzelle
+  res$gross_height_plot <- min(dat$y) # bruttohoehe parzelle
+  res$total_area_plot <- res$gross_width_plot * res$gross_height_plot # bruttoflaeche parzelle
+  res$outer_area <- diff(range(c(dat$xmin,dat$xmax))) * diff(range(c(dat$ymin,dat$ymax)))
+
+  res$rel_space_width <- 1 - ((res$gross_width_plot - res$eff_width_plot) / (res$gross_width_plot))
+  res$rel_space_height <- 1 - ((res$gross_height_plot - res$eff_height_plot) / (res$gross_height_plot))
+
+  res$n_plots <- dim(dat)[1]
+  res$n_cols <- length(unique(dat$x))
+  res$n_rows <- length(unique(dat$y))
+  res$total_area <- res$total_area_plot * res$n_rows * res$n_cols# bruttofl?che versuch
+  res$space_between <- res$total_area - res$eff_total_area
+
+  res$share_eff_plot <- res$eff_plot_size / res$total_area_plot
+  res$share_space_plot <- 1 - res$share_eff_plot
+
+  res$abs_space_height <- res$gross_height_plot - res$eff_height_plot
+  res$abs_space_width <- res$gross_width_plot - res$eff_width_plot
+
+  res$net_plot_diagonal <- signif(sqrt(res$eff_height_plot^2 + res$eff_width_plot^2),3)
+  res$gross_plot_diagonal <- signif(sqrt(res$gross_height_plot^2 + res$gross_width_plot^2),3)
+  res$experiment_diagonal <- signif(sqrt(res$eff_width^2 + res$eff_width^2),3)
+  res$outer_diagonal <- signif(sqrt(diff(range(c(dat$xmin,dat$xmax)))^2 + diff(range(c(dat$ymin,dat$ymax)))^2),3)
+
+  res$xmin <- min(dat$xmin)
+  res$xmax <- max(dat$xmax)
+  res$ymin <- min(dat$ymin)
+  res$ymax <- max(dat$ymax)
+  res$n_fac <- length(unique(dat$fill))
+  class(res) <- "FieldLayout"
+  res
+}
+
+#' summary of a field Layout
+#'
+#' print a summary of a FieldLayout object
+#' @param object an object, created by DOE_obj with a FieldLayout class
+#' @param unit a string that corresponds to measure unit (default is m)
+#' @param part which part of the summary are you interested?
+#' Choose one of the following: "net_plot","gross_plot","field","experiment","all"
+#' @param ... further arguments passed to or from other methods
+#'
+#' @export
+#'
+#' @examples
+#' library(agricolaeplotr)
+#' library(agricolae)
+#' varieties<-c('perricholi','yungay','maria bonita','tomasa')
+#' outdesign <-design.youden(varieties,r=2,serie=2,seed=23)
+#' p <- plot_youden(outdesign, labels = 'varieties')
+#' stats <- DOE_obj(p)
+#' # print plot summary for net plot (plots without space)
+#' summary(stats, part = "net_plot")
+#' # print plot summary for gross plot (plots with space)
+#' summary(stats, part = "gross_plot")
+#' # print plot summary for entire field
+#' summary(stats, part = "field")
+#' # print plot summary for design summary
+#' summary(stats, part = "experiment")
+#' # print plot summary for all information shown above in one output
+#' summary(stats, part = "all")
+###FieldLayout <- function(object,unit,part,...) S3method(summary, FieldLayout)
+summary <- function(object, unit="m", part="net_plot",...){
+  if(!inherits(object,"FieldLayout")){
+    stop("This is not the right class for this kind of summary. You need to use an object from a class \"FieldLayout\".")
+  }
+  x <- object
+  if(!(part  %in% c("net_plot","gross_plot","field","experiment","all"))){
+    stop(paste("part parameter needs to be one of the following: net_plot, gross_plot, field, all. You have typed",part))
+  }
+  if(part %in% c("net_plot","all")){
+
+    print(paste("net plot height:",x$eff_height_plot, unit))
+    print(paste("net plot width:",x$eff_width_plot, unit))
+    print(paste("net plot diagonal:",x$net_plot_diagonal, unit))
+    print(paste("net plot area:",x$eff_plot_size, paste0(unit,"^2")))
+    print(paste("share used plot area:",x$share_eff_plot))
+    print(paste("share space between plots:",x$share_space_plot))
+    print(paste("space_width:",x$abs_space_height, unit))
+    print(paste("space_height:",x$abs_space_width, unit))
+  }
+
+  if(part %in% c("gross_plot","all")){
+
+    print(paste("gross plot height:",x$gross_height_plot, unit))
+    print(paste("gross plot width:",x$gross_width_plot, unit))
+    print(paste("gross plot diagonal:",x$gross_plot_diagonal, unit))
+    print(paste("gross plot area:",x$total_area_plot,paste0(unit,"^2")))
+
+    print(paste("share used plot area:",x$share_eff_plot))
+    print(paste("share space between plots:",x$share_space_plot))
+    print(paste("space_width:",x$abs_space_height, unit))
+    print(paste("space_height:",x$abs_space_width, unit))
+    print(paste("gross space area:",x$space_between, paste0(unit,"^2")))
+  }
+
+  if(part %in% c("field","all")){
+
+    print(paste("relative design height:",x$rel_space_height))
+    print(paste("relative design width:",x$rel_space_width))
+    print(paste("net experiment diagonal:",x$experiment_diagonal, unit))
+    print(paste("net experiment width:",x$eff_width, unit))
+    print(paste("net experiment height:",x$eff_height, unit))
+    print(paste("used plot area:",x$eff_total_area,paste0(unit,"^2")))
+    print(paste("used area DOE:",x$outer_area,paste0(unit,"^2")))
+    print(paste("used outer area:",x$total_area,paste0(unit,"^2")))
+    print(paste("outer field diagonal:",x$outer_diagonal, unit))
+  }
+  if(part %in% c("experiment","all")){
+
+    print(paste("xmin:", x$xmin))
+    print(paste("xmax:", x$xmax))
+    print(paste("ymin:", x$ymin))
+    print(paste("ymax:", x$ymax))
+    print(paste("number columns:",x$n_cols))
+    print(paste("number rows:",x$n_rows))
+    print(paste("number of plots:",x$n_plots))
+    print(paste("number of factors:",x$n_fac))
+  }
+}
+
+#' to_table
+#'
+#' Write field experiment information to a dataframe.
+#' @param object an object, created by DOE_obj with a FieldLayout class
+#' @param unit a string that corresponds to measure unit (default is m)
+#' @param part which part of the summary are you interested?
+#' Choose one of the following: "net_plot","gross_plot","field","experiment"
+#' @param digits integer indicating the number of decimal places (round)
+#' or significant digits (signif) to be used. Negative values are allowed
+#' @param ... further arguments passed to or from other methods
+#'
+#' @return dataframe with corresponding information about the experiment
+#' @export
+#'
+#' @examples
+#' library(agricolaeplotr)
+#' library(agricolae)
+#' varieties<-c('perricholi','yungay','maria bonita','tomasa')
+#' outdesign <-design.youden(varieties,r=2,serie=2,seed=23)
+#' p <- plot_youden(outdesign, labels = 'varieties', width=4, height=3)
+#' stats <- DOE_obj(p)
+#' r <- to_table(stats,part = "net_plot", digits = 2)
+#' r
+#' r <- to_table(stats,part = "gross_plot", digits = 2)
+#' r
+#' r <- to_table(stats,part = "field", digits = 2)
+#' r
+#' r <- to_table(stats,part = "experiment", digits = 2)
+#' r
+#' r <- to_table(stats,part = "all", digits = 2)
+#' r
+to_table <- function(object,part="net_plot",unit="m",digits=3,...){
+  if (!inherits(object,"FieldLayout")){
+    stop("The object needs to be from the class 'agricolaeplotr'")
+  }
+  x <- unclass(object)
+  if(!(part  %in% c("net_plot","gross_plot","field","experiment","all"))){
+    stop(paste("part parameter needs to be one of the following: net_plot, gross_plot, field, experiment. You have typed",part))
+  }
+  if(part %in% ("net_plot")){
+    df1 <- data.frame(names=rep(0,8))
+    df1$names <- c(paste("net plot height:", unit),
+                  paste("net plot width:", unit),
+                  paste("net plot diagonal:", unit),
+                  paste("net plot area:",paste0(unit,"^2")),
+                  paste("share used plot area:"),
+                  paste("share space between plots:"),
+                  paste("space_width:", unit),
+                  paste("space_height:",unit))
+
+    df1$vals <- c(x$eff_height_plot,x$eff_width_plot,x$net_plot_diagonal,
+                 x$eff_plot_size,x$share_eff_plot,x$share_space_plot,
+                 x$abs_space_height,x$abs_space_width)
+
+    df1$vals <- signif(df1$vals,digits=digits)
+    return(df1)
+  }
+  if(part %in% ("gross_plot")){
+
+    df2 <- data.frame(names=rep(0,9))
+
+    df2$names <- c(paste("gross plot height:", unit),
+                  paste("gross plot width:", unit),
+                  paste("gross plot diagonal:", unit),
+                  paste("gross plot area:",paste0(unit,"^2")),
+                  paste("gross space area:", paste0(unit,"^2")),
+
+                  paste("share used plot area: %/100"),
+                  paste("share space between plots: %/100"),
+                  paste("space_width:", unit),
+                  paste("space_height:", unit))
+
+    df2$vals <- c(x$gross_height_plot,x$gross_width_plot,x$gross_plot_diagonal,
+                 x$total_area_plot,x$space_between,x$share_eff_plot,x$share_space_plot,
+                 x$abs_space_height,x$abs_space_width)
+
+    df2$vals <- signif(df2$vals,digits=digits)
+    return(df2)
+  }
+
+
+  if(part %in% ("field")){
+
+    df3 <- data.frame(names=rep(0,9))
+
+    df3$names <- c(paste("relative design height:"),
+                  paste("relative design width:"),
+                  paste("net experiment diagonal:", unit),
+                  paste("net experiment width:", unit),
+                  paste("net experiment height:", unit),
+                  paste("used plot area:",paste0(unit,"^2")),
+                  paste("used area DOE:",paste0(unit,"^2")),
+                  paste("used outer area:",paste0(unit,"^2")),
+                  paste("outer field diagonal:", unit))
+
+
+    df3$vals <- c(x$rel_space_height,x$rel_space_width,x$experiment_diagonal,x$eff_width,
+                 x$eff_height,x$eff_total_area,x$outer_area,x$total_area,x$outer_diagonal)
+
+    df3$vals <- signif(df3$vals,digits=digits)
+    return(df3)
+  }
+  if(part %in% ("experiment")){
+
+
+    df4 <- data.frame(names=rep(0,8))
+
+    df4$names <-c("xmin:",
+                 "xmax:",
+                 "ymin:",
+                 "ymax:",
+                 "number columns:",
+                 "number rows:",
+                 "number of plots:",
+                 "number of factors:")
+
+    df4$vals <- c(x$xmin,
+                 x$xmax,
+                 x$ymin,
+                 x$ymax,
+                 x$n_cols,
+                 x$n_rows,
+                 x$n_plots,
+                 x$n_fac)
+
+    df4$vals <- signif(df4$vals,digits=digits)
+    return(df4)
+  }
+  if(part %in% ("all")){
+    df5 <- data.frame(names=rep(0,30))
+    df5$names <- c(paste("net plot height:", unit),
+                   paste("net plot width:", unit),
+                   paste("net plot diagonal:", unit),
+                   paste("net plot area:",paste0(unit,"^2")),
+                   paste("share used plot area:"),
+                   paste("share space between plots:"),
+                   paste("space_width:", unit),
+                   paste("space_height:",unit),
+                   paste("gross plot height:", unit),
+                   paste("gross plot width:", unit),
+                   paste("gross plot diagonal:", unit),
+                   paste("gross plot area:",paste0(unit,"^2")),
+                   paste("gross space area:", paste0(unit,"^2")),
+                   paste("relative design height:"),
+                   paste("relative design width:"),
+                   paste("net experiment diagonal:", unit),
+                   paste("net experiment width:", unit),
+                   paste("net experiment height:", unit),
+                   paste("used plot area:",paste0(unit,"^2")),
+                   paste("used area DOE:",paste0(unit,"^2")),
+                   paste("used outer area:",paste0(unit,"^2")),
+                   paste("outer field diagonal:", unit),
+                   "xmin:",
+                   "xmax:",
+                   "ymin:",
+                   "ymax:",
+                   "number columns:",
+                   "number rows:",
+                   "number of plots:",
+                   "number of factors:")
+
+
+    df5$vals <- c(x$eff_height_plot,x$eff_width_plot,x$net_plot_diagonal,
+                  x$eff_plot_size,x$share_eff_plot,x$share_space_plot,
+                  x$abs_space_height,x$abs_space_width,
+                  x$gross_height_plot,x$gross_width_plot,x$gross_plot_diagonal,
+                  x$total_area_plot,x$space_between,
+
+                  x$rel_space_height,x$rel_space_width,x$experiment_diagonal,x$eff_width,
+                  x$eff_height,x$eff_total_area,x$outer_area,x$total_area,x$outer_diagonal,
+                  x$xmin,
+                  x$xmax,
+                  x$ymin,
+                  x$ymax,
+                  x$n_cols,
+                  x$n_rows,
+                  x$n_plots,
+                  x$n_fac)
+    df5$vals <- signif(df5$vals,digits=digits)
+    return(df5)
+
+  }
+
+
+
+
+   }
+
+
+#' make_polygons
+#'
+#' This function coerces all rectangles
+#' from a 'ggplot' object to 'SpatialPolygonDataframe'.
+#' @param ggplot_object saved ggplot object, containing the
+#' coordinates of the rectangles of a 'ggplot' object of the first two layers
+#' @param north float added to the rows
+#'  to have a northing ordinate
+#' @param east float added to the rows
+#'  to have a easting ordinate
+#' @param projection_input string defines
+#'  in which EPSG projection the ggplot object should be converted to a raster object?
+#'  a projection with a metric unit is highly recommended
+#' @param projection_output string defines
+#'  in which EPSG projection the SpatialPolygonDataFrame should be exported.
+#' @importFrom raster extent crs
+#' @export
+#' @return a SpatialPolygonDataframe object
+#'
+#' @examples
+#' library(agricolaeplotr)
+#' library(agricolae)
+#' trt = c(2,3,4)
+#' outdesign1 <-design.crd(trt,r=5,serie=2,2543,'Mersenne-Twister')
+#' plt <- plot_design_crd(outdesign1,ncols = 13,nrows = 3)
+#' spat_df <- make_polygons(plt)
+#' spat_df
+make_polygons <- function(ggplot_object,
+                          north = 3454206.89,
+                          east = 5939183.21,
+                          projection_input = "+init=epsg:31467",
+                          projection_output = "+init=epsg:4326") {
+  table_object <- merge(ggplot2::layer_data(ggplot_object,1),
+                        ggplot2::layer_data(ggplot_object,2),
+                        by.x=c("x","y"), by.y=c("x","y"))
+  bounds = table_object[, c(7, 6, 9, 8)]
+  bounds$xmax <- bounds$xmax + north
+  bounds$xmin <- bounds$xmin + north
+
+  bounds$ymax <- bounds$ymax + east
+  bounds$ymin <- bounds$ymin + east
+
+
+  polygons_list = apply(bounds, 1, function(x) {
+    out = raster::extent(x[c(2, 1, 4, 3)])
+    out = methods::as(out, 'SpatialPolygons')
+    out = methods::as(out, 'SpatialPolygonsDataFrame')
+    raster::crs(out) <- sp::CRS(projection_input)
+    out
+  })
+
+
+  polygons_list = do.call(rbind, polygons_list)
+  polygons_list@data <- table_object
+
+  polygons_list <- sf::st_as_sf(polygons_list)
+  # polygons_list <- sp::spTransform(polygons_list, sp::CRS(projection_output))
+  polygons_list <- sf::st_transform(polygons_list, crs = sf::st_crs(projection_output))
+  return(polygons_list)
+}
+
+#' theme_gi
+#'
+#' Creates a theme for 'ggplot' based graphics to ensure
+#' to meet formal requirements for conferences of the
+#' Gesellschaft fuer Informatik
+#'
+#' @return a 'ggplot' graph with a modified theme
+#' @export
+#'
+#' @examples
+#' # example borrowed from ggplot2
+#' library(ggplot2)
+#' df <- data.frame(
+#' gp = factor(rep(letters[1:3], each = 10)),
+#' y = rnorm(30))
+#'
+#' p <- ggplot() +
+#' geom_point(data = df, aes(gp, y))
+#' p <- p + theme_gi();p
+theme_gi <- function(){
+  theme_bw() +
+    theme(text=element_text(size = 10, angle = 0))
+    theme(axis.text = element_text(colour = "black"))+
+    theme(axis.title = element_text(hjust = 0.5))
+}
+
+
+
+#' Plot FielDHub Design
+#'
+#' Plots designs from \code{FielDHub} package
+#' @param design outdesign from \code{FielDHub} package with on of the following IDs: c(9,13,14,15,16)
+#' @param x Describes the x coordinates of a experiment design
+#' @param y Describes the y coordinates of a experiment design
+#' @param labels string Describes the column from that the plots are taken to display them
+#' @param factor_name string Which factor should be used for plotting, needs to be a column in outdesign$book
+#' @param width numeric value, describes the width of a plot in an experiment
+#' @param height numeric value, describes the height of a plot in an experiment
+#' @param space_width numeric value, describes the share of the space of the plots. 0=only space, 1=no space between plots in term of width
+#' @param space_height numeric value, describes the share of the space of the plots. 0=only space, 1=no space between plots in term of height
+#' @param reverse_y boolean, should the plots of the experiment be changed in reverse order in Row direction? use reverse_y=TRUE to have same sketch as in agricolae. default:reverse_y=FALSE
+#' @param reverse_x boolean, should the plots of the experiment be changed in reverse order in column direction? default:reverse_x=FALSE
+#' @param shift_x numeric indicates the shift in units in x-axis.
+#' @param shift_y numeric indicates the shift in units for the y-axis.
+
+#' @return \code{ggplot} graphic that can be modified, if wished
+#' @export
+#' @import ggplot2
+#' @import FielDHub
+#' @examples
+#'\dontrun{
+#' library(agricolaeplotr)
+#' library(FielDHub)
+#'H <- paste("H", 1:4, sep = "")
+#'V <- paste("V", 1:5, sep = "")
+#'
+#'strip1 <- FielDHub::strip_plot(Hplots = H,
+#'                               Vplots = V,
+#'                               b = 1,
+#'                               l = 1,
+#'                               plotNumber = 101,
+#'                               planter = "serpentine",
+#'                               locationNames = "A",
+#'                               seed = 333)
+#'
+#'
+#'strip1$fieldBook$ROW <- as.numeric(ordered(strip1$fieldBook$VSTRIP,
+#'                        levels = unique(strip1$fieldBook$VSTRIP)))
+#'strip1$fieldBook$COLUMN <- as.numeric(ordered(strip1$fieldBook$HSTRIP,
+#'                        levels = unique(strip1$fieldBook$HSTRIP)))
+#'
+#' plot_fieldhub(strip1,
+#'               x = "ROW",
+#'               y = "COLUMN",
+#'               labels = "HSTRIP",
+#'               factor_name = "HSTRIP",
+#'               width = 12,
+#'               height = 10,
+#'               reverse_y = FALSE,
+#'               reverse_x = FALSE)
+#'
+#'}
+#'
+plot_fieldhub <- function(design,
+                          x = "COLUMN",
+                          y = "ROW",
+                          labels = "PLOT",
+                          factor_name = "TREATMENT",
+                          width = 1,
+                          height = 1,
+                          space_width = 0.95,
+                          space_height = 0.85,
+                          reverse_y = FALSE,
+                          reverse_x = FALSE,
+                          shift_x=0,
+                          shift_y=0) {
+  if (!(design$infoDesign$id_design %in% c(1,2,3,4,7,8,9,10,11,12,13,14,15,16)))
+  {
+    stop(paste0("This is not the correct function for your experiment design
+                or is not supported yet."))
+
+  } else {print("Your Design ID is supported.")}
+
+    design$book <- design$fieldBook
+    test_string(x)
+    test_string(y)
+
+    test_input_reverse(reverse_x)
+    test_input_reverse(reverse_y)
+
+    test_input_extend(height)
+    test_input_extend(width)
+
+    test_input_extend(space_height)
+    test_input_extend(space_width)
+
+    test_input_shift(shift_x)
+    test_input_shift(shift_y)
+
+    test_name_in_column(labels, design)
+
+    table <- as.data.frame(design$book)
+    table[, x]  <- as.numeric(table[, x] ) * width + shift_x
+    table[, y] <- as.numeric(table[, y]) * height + shift_y
+    if (reverse_y == TRUE) {
+      table[, y] <- abs(table[, y] - max(table[, y])) +
+        min(table[, y])
+    }
+    if (reverse_x == TRUE) {
+      table[, x]  <- abs(table[, x]  - max(table[, x] )) +
+        min(table[, x] )
+    }
+    plt <- ggplot(table, aes(.data[[x]], .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
+                width = width * space_width, height = height *
+                  space_height) + theme_bw() + theme(line = element_blank()) +
+      geom_text(aes(label = .data[[labels]]), colour = "black")# +
+    # + facet_grid(reformulate(replication_name,location_name))
+
+    plt
+
+    return(plt)
+
+  }
+
+
+
+#' Serpentine
+#'
+#' This function produces a serpentine array of integers beginning by one
+#'
+#' @param n integer value indicating the upper cap of a numeric sequence
+#' @param times integer number of replications
+#' @param m integer value indicating the lower
+#' cap of a numeric sequence
+#'
+#' @return vector containing the serpentine sequence
+#' @export
+#'
+#' @examples
+#' serpentine(n=20,times = 15)
+#' serpentine(n=20,times = 15,m=4)
+serpentine <- function(n,times,m=1){
+  vec= vector()
+  for(i in 1:times){
+    if(i %% 2 == 1){
+      vec <- cbind(vec,m:n)
+    }
+    else{
+      vec <- cbind(vec,n:m)
+    }
+  }
+  return(as.vector(vec))
+}
+
+#' full_control_positions
+#'
+#' This function provides full control about the plotting. The user also may shift the coordinates as liked.
+#'
+#' @param design data.frame containing the row and columns of an experiment
+#' @param x Describes the x coordinates of a experiment design
+#' @param y Describes the y coordinates of a experiment design
+#' @param width numeric value, describes the width of a plot in an experiment
+#' @param height numeric value, describes the height of a plot in an experiment
+#' @param space_width numeric value, describes the share of the space of the plots. 0=only space, 1=no space between plots in term of width
+#' @param space_height numeric value, describes the share of the space of the plots. 0=only space, 1=no space between plots in term of height
+#' @param reverse_y boolean, should the plots of the experiment be changed in reverse order in Row direction? use reverse_y=TRUE to have same sketch as in agricolae. default:reverse_y=FALSE
+#' @param reverse_x boolean, should the plots of the experiment be changed in reverse order in column direction? default:reverse_x=FALSE
+#' @param factor_name string Which factor should be used for plotting, needs to be a column in outdesign$book
+#' @param labels string Describes the column from that the plots are taken to display them
+#' @param shift_x numeric indicates the shift in units in x-axis.
+#' @param shift_y numeric indicates the shift in units for the y-axis.
+#' @param start_origin boolean. Should the design start at the origin (0|0)?
+#'
+#' @return \code{ggplot} graphic that can be modified, if wished
+#' @export
+#' @import ggplot2
+#' @import agricolae
+#' @examples
+#' library(agricolaeplotr)
+#' library(agricolae)
+#' varieties<-c('perricholi','yungay','maria bonita','tomasa')
+#' outdesign <-design.youden(varieties,r=2,serie=2,seed=23)
+#' design <- outdesign$book
+#' design
+#' p <- full_control_positions(design,"col","row","varieties","plots",
+#'                        width=3,height=4.5,
+#'                        space_width=0.5,space_height=0.5,
+#'                        shift_x=(-0.5*3) + (-0.5*3*0.5),shift_y=-0.5*4.5 + (-0.5*4.5*0.5))
+#' p
+#' p <- full_control_positions(design,"col","row","varieties","plots",
+#'                        width=3,height=4.5,
+#'                        space_width=0.13,space_height=0.445,
+#'                        shift_x=(-0.5*3) + (-0.5*3*(1-0.13)),shift_y=-0.5*4.5 + (-0.5*4.5*(1-0.445)))
+#'                        p
+#'
+#' p <- full_control_positions(design,"col","row","varieties","plots",
+#'                        width=3,height=4.5,
+#'                        space_width=1,space_height=1,
+#'                        shift_x=-0.5*3,shift_y=-0.5*4.5)
+#' p
+#'
+#' p <- full_control_positions(design,"col","row","varieties","plots",
+#'                        width=3,height=4.5,
+#'                        space_width=0.93,space_height=0.945,
+#'                        start_origin = TRUE)
+#'                        p
+full_control_positions <- function(design,
+                                   x = "col",
+                                   y = "row",
+                                   factor_name = "trt",
+                                   labels = "plots",
+                                   width = 1,
+                                   height = 1,
+                                   space_width = 0.95,
+                                   space_height = 0.85,
+                                   reverse_y = FALSE,
+                                   reverse_x = FALSE,
+                                   shift_x=0,
+                                   shift_y=0,
+                                   start_origin=FALSE) {
+
+  test_string(x)
+  test_string(y)
+
+  test_input_reverse(reverse_x)
+  test_input_reverse(reverse_y)
+
+  test_input_extend(height)
+  test_input_extend(width)
+
+  test_input_extend(space_height)
+  test_input_extend(space_width)
+
+  test_input_shift(shift_x)
+  test_input_shift(shift_y)
+
+  table <- design
+
+  if(start_origin == TRUE){
+    shift_x <- width * -0.5 + (width * -0.5 * (1-space_width)) ## makes zero
+    shift_y <- height * -0.5 + (height * -0.5 * (1-space_height)) ## makes zero
+
+    table[, x]  <- as.numeric(table[, x] ) * width + shift_x
+    table[, y] <- as.numeric(table[, y]) * height + shift_y
+  }
+  else{
+  table[, x]  <- as.numeric(table[, x] ) * width + shift_x
+  table[, y] <- as.numeric(table[, y]) * height + shift_y
+  }
+  if (reverse_y == TRUE) {
+    table[, y] <- abs(table[, y] - max(table[, y])) +
+      min(table[, y])
+  }
+  if (reverse_x == TRUE) {
+    table[, x]  <- abs(table[, x]  - max(table[, x] )) +
+      min(table[, x] )
+  }
+  plt <- ggplot(table, aes_string(x = x, y = y)) +
+    geom_tile(aes_string(fill = factor_name),
+              width = width * space_width, height = height *
+                space_height) + theme_bw() + theme(line = element_blank()) +
+    geom_text(aes_string(label = labels), colour = "black")
+
+  plt
+
+  return(plt)
+}
+
+#' Citation
+#'
+#' Generates citations of all loaded packages
+#'
+#' @param includeURL boolean, Should the URL be returned?
+#' @param bibtex boolean, Should the citations be returned as bibtex?
+#'
+#' @return printed output to console
+#' @export
+#'
+#' @examples
+#' library(ggplot2)
+#' library(agricolaeplotr)
+#' library(agricolae)
+#' library(raster)
+#' citations()
+citations <- function(includeURL = TRUE, bibtex=TRUE) {
+
+
+  cit.list <- c('base', names(utils::sessionInfo()$otherPkgs))
+  for(i in seq_len(length(cit.list))) {
+    ref <- utils::citation(cit.list[i])
+    if(includeURL == FALSE) {
+      ref$url <- NULL
+    }
+    if (bibtex==TRUE){
+      print(utils::toBibtex(ref))}else
+      {
+        print(ref, style = 'text')
+      }
+    cat('\n')
+  }
+}
+
+
