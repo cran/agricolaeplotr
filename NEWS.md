@@ -1,3 +1,21 @@
+# agricolaeplotr 0.5.0
+
+# agricolaeplotr 0.4.0
+
+## Updates
+
+* Added function `plot_longest_diagonal` to take samples on the longest diagonal on a polygon.
+
+# agricolaeplotr 0.3.2
+
+## Updates
+
+* Updated functions in order to swap from `maptools` to `sf`.
+
+## New Features
+
+* functions `make_polygons_ggvoronoi` and `sample_locations` added.
+
 # agricolaeplotr 0.3.1
 
 ## Updates

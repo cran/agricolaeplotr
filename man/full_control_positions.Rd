@@ -16,7 +16,11 @@ full_control_positions(
   space_height = 0.85,
   reverse_y = FALSE,
   reverse_x = FALSE,
+  way_x = 0,
+  way_y = 0,
   shift_x = 0,
+  dist_x = 1,
+  dist_y = 1,
   shift_y = 0,
   start_origin = FALSE
 )
@@ -44,7 +48,15 @@ full_control_positions(
 
 \item{reverse_x}{boolean, should the plots of the experiment be changed in reverse order in column direction? default:reverse_x=FALSE}
 
+\item{way_x}{numeric vector indicates the shift of the nth-plot in x-axis.}
+
+\item{way_y}{numeric vector indicates the shift of the nth-plot in y-axis.}
+
 \item{shift_x}{numeric indicates the shift in units in x-axis.}
+
+\item{dist_x}{numeric indicates the shift in plots in x-axis.}
+
+\item{dist_y}{numeric indicates the shift in plots for the y-axis.}
 
 \item{shift_y}{numeric indicates the shift in units for the y-axis.}
 
@@ -59,6 +71,7 @@ This function provides full control about the plotting. The user also may shift 
 \examples{
 library(agricolaeplotr)
 library(agricolae)
+library(ggplot2)
 varieties<-c('perricholi','yungay','maria bonita','tomasa')
 outdesign <-design.youden(varieties,r=2,serie=2,seed=23)
 design <- outdesign$book
@@ -74,6 +87,9 @@ p <- full_control_positions(design,"col","row","varieties","plots",
                        shift_x=(-0.5*3) + (-0.5*3*(1-0.13)),shift_y=-0.5*4.5 + (-0.5*4.5*(1-0.445)))
                        p
 
+varieties<-LETTERS[1:12]
+outdesign <-design.youden(varieties,r=12,serie=2,seed=23)
+design <- outdesign$book
 p <- full_control_positions(design,"col","row","varieties","plots",
                        width=3,height=4.5,
                        space_width=1,space_height=1,
@@ -85,4 +101,16 @@ p <- full_control_positions(design,"col","row","varieties","plots",
                        space_width=0.93,space_height=0.945,
                        start_origin = TRUE)
                        p
+
+p <- full_control_positions(design,"col","row","varieties","plots",
+width=3,height=4.5,
+space_width=0.93,space_height=0.945,way_x = c(2,6,8,10,12),way_y=c(3,8),dist_x=2,dist_y=4,
+start_origin = TRUE, reverse_y = FALSE,  reverse_x = FALSE);p
+
+p <- full_control_positions(design,"col","row","varieties","plots",
+                                    width=3,height=4.5,
+                                    space_width=0.93,space_height=0.945,
+                                    way_x = c(2,4,6,8,10,12),way_y=c(3,8),
+                                    start_origin = FALSE, reverse_y = FALSE,
+                                    reverse_x = FALSE);p
 }

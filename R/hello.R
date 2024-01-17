@@ -1,3 +1,8 @@
+.onAttach <- function(libname, pkgname) {
+ packageStartupMessage( "\nType 'citation(\"agricolaeplotr\")' for citing this R package in publications.")
+}
+
+
 #' checks matrix column input
 #'
 #' checks if input is suitable for matrix column indication
@@ -2034,10 +2039,10 @@ theme_poster <- function() {
 #' @param height numeric value, describes the height of a plot in an experiment
 #' @param space_width numeric value, describes the share of the space of the plots. 0=only space, 1=no space between plots in term of width
 #' @param space_height numeric value, describes the share of the space of the plots. 0=only space, 1=no space between plots in term of height
-#' @param reverse_y boolean, should the plots of the experiment be changed in reverse order in Row direction? use reverse_y=TRUE to have same sketch as in agricolae. default:reverse_y=FALSE
+#' @param reverse_y boolean, should the plots of the experiment be changed in reverse order in Row direction? Use reverse_y=TRUE to have same sketch as in agricolae. default:reverse_y=FALSE
 #' @param reverse_x boolean, should the plots of the experiment be changed in reverse order in column direction? default:reverse_x=FALSE
 #' @param factor_name string Which factor should be used for plotting, needs to be a column in outdesign$book
-#' @param labels string Describes the column from that the plots are taken to display them
+#' @param labels string Describes the column from that the plots are taken to display them.
 #'
 #' @return \code{ggplot} graphic that can be modified, if wished
 #' @export
@@ -2454,7 +2459,7 @@ to_table <- function(object,part="net_plot",unit="m",digits=3,...){
 #' make_polygons
 #'
 #' This function coerces all rectangles
-#' from a 'ggplot' object to 'SpatialPolygonDataframe'.
+#' from a 'ggplot' object to 'SpatialPolygonDataFrame'.
 #' @param ggplot_object saved ggplot object, containing the
 #' coordinates of the rectangles of a 'ggplot' object of the first two layers
 #' @param north float added to the rows
@@ -2468,7 +2473,7 @@ to_table <- function(object,part="net_plot",unit="m",digits=3,...){
 #'  in which EPSG projection the SpatialPolygonDataFrame should be exported.
 #' @importFrom raster extent crs
 #' @export
-#' @return a SpatialPolygonDataframe object
+#' @return a SpatialPolygonDataFrame object
 #'
 #' @examples
 #' library(agricolaeplotr)
@@ -2702,8 +2707,12 @@ serpentine <- function(n,times,m=1){
 #' @param reverse_x boolean, should the plots of the experiment be changed in reverse order in column direction? default:reverse_x=FALSE
 #' @param factor_name string Which factor should be used for plotting, needs to be a column in outdesign$book
 #' @param labels string Describes the column from that the plots are taken to display them
+#' @param way_x numeric vector indicates the shift of the nth-plot in x-axis.
+#' @param way_y numeric vector indicates the shift of the nth-plot in y-axis.
 #' @param shift_x numeric indicates the shift in units in x-axis.
 #' @param shift_y numeric indicates the shift in units for the y-axis.
+#' @param dist_x numeric indicates the shift in plots in x-axis.
+#' @param dist_y numeric indicates the shift in plots for the y-axis.
 #' @param start_origin boolean. Should the design start at the origin (0|0)?
 #'
 #' @return \code{ggplot} graphic that can be modified, if wished
@@ -2713,6 +2722,7 @@ serpentine <- function(n,times,m=1){
 #' @examples
 #' library(agricolaeplotr)
 #' library(agricolae)
+#' library(ggplot2)
 #' varieties<-c('perricholi','yungay','maria bonita','tomasa')
 #' outdesign <-design.youden(varieties,r=2,serie=2,seed=23)
 #' design <- outdesign$book
@@ -2728,6 +2738,9 @@ serpentine <- function(n,times,m=1){
 #'                        shift_x=(-0.5*3) + (-0.5*3*(1-0.13)),shift_y=-0.5*4.5 + (-0.5*4.5*(1-0.445)))
 #'                        p
 #'
+#' varieties<-LETTERS[1:12]
+#' outdesign <-design.youden(varieties,r=12,serie=2,seed=23)
+#' design <- outdesign$book
 #' p <- full_control_positions(design,"col","row","varieties","plots",
 #'                        width=3,height=4.5,
 #'                        space_width=1,space_height=1,
@@ -2739,6 +2752,19 @@ serpentine <- function(n,times,m=1){
 #'                        space_width=0.93,space_height=0.945,
 #'                        start_origin = TRUE)
 #'                        p
+#'
+#' p <- full_control_positions(design,"col","row","varieties","plots",
+#' width=3,height=4.5,
+#'space_width=0.93,space_height=0.945,way_x = c(2,6,8,10,12),way_y=c(3,8),dist_x=2,dist_y=4,
+#'start_origin = TRUE, reverse_y = FALSE,  reverse_x = FALSE);p
+#'
+#'p <- full_control_positions(design,"col","row","varieties","plots",
+#'                                     width=3,height=4.5,
+#'                                     space_width=0.93,space_height=0.945,
+#'                                     way_x = c(2,4,6,8,10,12),way_y=c(3,8),
+#'                                     start_origin = FALSE, reverse_y = FALSE,
+#'                                     reverse_x = FALSE);p
+
 full_control_positions <- function(design,
                                    x = "col",
                                    y = "row",
@@ -2750,7 +2776,11 @@ full_control_positions <- function(design,
                                    space_height = 0.85,
                                    reverse_y = FALSE,
                                    reverse_x = FALSE,
+                                   way_x=0,
+                                   way_y=0,
                                    shift_x=0,
+                                   dist_x=1,
+                                   dist_y=1,
                                    shift_y=0,
                                    start_origin=FALSE) {
 
@@ -2769,19 +2799,51 @@ full_control_positions <- function(design,
   test_input_shift(shift_x)
   test_input_shift(shift_y)
 
+  test_input_shift(way_x)
+  test_input_shift(way_y)
+
+  test_input_shift(dist_x)
+  test_input_shift(dist_y)
+
+  test_input_reverse(start_origin)
+
+
   table <- design
 
   if(start_origin == TRUE){
     shift_x <- width * -0.5 + (width * -0.5 * (1-space_width)) ## makes zero
     shift_y <- height * -0.5 + (height * -0.5 * (1-space_height)) ## makes zero
 
-    table[, x]  <- as.numeric(table[, x] ) * width + shift_x
-    table[, y] <- as.numeric(table[, y]) * height + shift_y
+    table[, x]  <- as.numeric(table[, x] )
+
+    for (i in way_x ){
+      table[, x] <- ifelse(table[, x] > (i + (match(i,way_x) - 1)), table[, x] + dist_x, table[, x])
+      print(design)
+    }
+
+    table[, x]  <- table[, x] * width + shift_x
+
+    table[, y] <- as.numeric(table[, y])
+    for (i in way_y ){
+      table[, y] <- ifelse(table[, y] > (i + (match(i,way_y) - 1)), table[, y] + dist_y, table[, y])
+    }
+    table[, y] <- table[, y] * height + shift_y
   }
   else{
-  table[, x]  <- as.numeric(table[, x] ) * width + shift_x
-  table[, y] <- as.numeric(table[, y]) * height + shift_y
+    table[, x]  <- as.numeric(table[, x] )
+    for (i in way_x ){
+      table[, x] <- ifelse(table[, x] > (i + (match(i,way_x) - 1)), table[, x] + dist_x, table[, x])
+      print(design)
+    }
+    table[, x]  <- table[, x] * width + shift_x
+
+    table[, y] <- as.numeric(table[, y])
+    for (i in way_y ){
+      table[, y] <- ifelse(table[, y] > (i + (match(i,way_y) - 1)), table[, y] + dist_y, table[, y])
+    }
+    table[, y] <- table[, y] * height + shift_y
   }
+
   if (reverse_y == TRUE) {
     table[, y] <- abs(table[, y] - max(table[, y])) +
       min(table[, y])
@@ -2835,4 +2897,207 @@ citations <- function(includeURL = TRUE, bibtex=TRUE) {
   }
 }
 
+############ sampling locations per plot #########
 
+#' Sample Locations
+#'
+#' Returns locations to sample for each plot.
+#'
+#' This function takes an experiment design (plot layout) and returns random sample
+#' locations within each plot. The function uses the `sf` package to generate
+#' spatial polygons for the plots and then samples points within each polygon.
+#' Optionally, it can also display the sample locations as a ggplot2-based map.
+#'
+#' @param design Your experiment design of plot layouts.
+#' @param n Number of samples per plot (integer).
+#' @param plot Logical, indicating whether to visualize the sample locations as a ggplot2-based map.
+#' @param ... further options for `st_sample` and `make_polygons`
+#'
+#' @return An `sf` object containing the sample locations within each plot.
+#' @export
+#'
+#'
+#' @examples
+#' library(agricolaeplotr)
+#' library(agricolae)
+#' library(ggplot2)
+#' trt <- c('A', 'B', 'C', 'D')
+#' k <- 3
+#' outdesign <- design.bib(trt, k, serie = 2, seed = 41, kinds = 'Super-Duper')
+#' plot_bib(outdesign)
+#' p <- plot_bib(outdesign)
+#' sample_locations(p, 3, TRUE, projection_output = 25832)
+#'
+#' @importFrom sf st_sample
+#' @importFrom ggplot2 geom_sf ggplot
+sample_locations <- function(design, n, plot = TRUE, ...) {
+  # Create spatial polygons for the design
+  doe <- make_polygons(design,...)
+
+  # Sample random points within each polygon
+  points <- sf::st_sample(doe, size = c(n, n), type = "random", exact = TRUE,...)
+
+  # Optionally, visualize the sample locations as a ggplot2-based map
+  if (plot) {
+    p <- ggplot2::ggplot(points) +
+      ggplot2::geom_sf(data = doe, aes(fill = .data[["fill"]])) +
+      ggplot2::geom_sf()
+    print(p)
+  }
+
+  return(points)
+}
+
+
+
+
+#' Plot the longest diagonal of a field
+#'
+#' This function takes a field and plots the longest diagonal of the field. The field is divided into segments and points are sampled from these segments.
+#'
+#' @param field An object of class sf representing the field.
+#' @param n Integer, the number of sample points along the longest diagonal.
+#' @param type Type of sampling. Default is "random".
+#' @param n_segments Numeric, the number of segments to divide the longest diagonal (default is 2).
+#' @param distance_field_boundary Numeric, the distance to buffer the field for creating the boundary (default is 3.0).
+#' @param width_diagonal_path Numeric, the width to buffer the diagonal path (default is 2.0).
+#' @export
+#'
+#' @return
+#' \itemize{
+#' \item p: A ggplot object showing the field, the buffered field, the buffered line, and the sample points.
+#' \item buffered_line: A sf object representing the buffered line.
+#' \item my_line: A sf object representing the longest diagonal of the field.
+#' \item sample_points: A sf object representing the sampled points.
+#' \item length: A numeric value, representing the length of the longest line.
+#' }
+#'
+#' @examples
+#' library(sf)
+#' my_sf <- st_read(system.file("shape/gfn_schlaege.shp", package="agricolaeplotr"))
+#' st_crs(my_sf) <- 25832
+#' field <- my_sf[my_sf$SCHLAG_NR == 170,]
+#' plot_longest_diagonal(field)
+#' @import ggplot2
+#' @import sf
+#' @importFrom dplyr filter
+#' @importFrom tidyr gather
+#' @importFrom stplanr line_segment
+#' @importFrom stats dist
+#' @importFrom tibble as_tibble rownames_to_column
+#' @importFrom ggspatial annotation_scale annotation_north_arrow
+plot_longest_diagonal <- function(field,n=8,type="random",n_segments=2,distance_field_boundary=3.0, width_diagonal_path=2){
+
+  buffered_field <- st_buffer(field,dist = -distance_field_boundary, joinStyle  = "MITRE", mitreLimit = 2,endCapStyle = "ROUND")
+  buffered_field_plot <- st_buffer(field,dist = -(distance_field_boundary + distance_field_boundary), joinStyle  = "MITRE", mitreLimit = 2,endCapStyle = "ROUND")
+  buffered_field_plot2 <- st_buffer(field,dist = -(width_diagonal_path), joinStyle  = "MITRE", mitreLimit = 2,endCapStyle = "ROUND")
+
+  spat <- as_Spatial(buffered_field_plot$geometry)
+
+  field_boundary <- spat@polygons[[1]]@Polygons[[1]]@coords
+
+  d <- stats::dist(field_boundary) %>% as.matrix() %>%
+    as_tibble() %>%
+    rownames_to_column(var = "start_node") %>%
+    gather(end_node, dist, -start_node) %>%
+    filter(dist != 0)
+
+  coords <- d[d$dist == max(d$dist),][1]
+  points <- data.frame(field_boundary)[coords$start_node,]
+  points <- matrix(unlist(points), ncol = 2, byrow = FALSE)
+  points <- unique(points)
+
+  my_line <- st_linestring(points)
+  my_line <- st_sfc(my_line,crs = st_crs(field))
+
+  di <- st_as_sf(my_line)
+  seg <- stplanr::line_segment(di,n_segments=n_segments)
+  buffered_line <- st_buffer(seg,dist = width_diagonal_path, endCapStyle = "FLAT",singleSide=FALSE,mitreLimit = 0.00003)
+
+  sample_points <- st_line_sample(seg,n=n,type=type)
+
+  p <- ggplot() +
+    geom_sf(data=field,fill="orange") +
+    geom_sf(data=buffered_field_plot2,fill="blue") +
+    geom_sf(data=buffered_line) + theme_minimal()+
+    geom_sf(data=sample_points,color="red")
+
+  p
+
+  ##### ab hier mehr neues
+  len <- st_length(di)
+  print(paste("Length of line:",len,units(len)$numerator))
+
+  p <- ggplot() +
+    geom_sf(data=field,fill="orange") +
+    geom_sf(data=buffered_field_plot,fill="blue") +
+    geom_sf(data=buffered_line) + theme_minimal()+
+    geom_sf(data=sample_points,color="red")
+
+  p <- p +
+    annotation_scale(
+      location = "tl",
+      bar_cols = c("grey60", "white")
+    ) +
+    annotation_north_arrow(
+      location = "tl", which_north = "true",
+      pad_x = unit(0.4, "in"), pad_y = unit(0.4, "in"),
+      style = ggspatial::north_arrow_nautical(
+        fill = c("grey40", "white"),
+        line_col = "grey20"
+      )
+    )
+
+  return(list(p,buffered_line,my_line,sample_points,len))
+}
+
+utils::globalVariables(c("end_node","start_node"))
+
+
+#' Create Protective Layers for Design of Experiments (DOEs)
+#'
+#' This function generates protective layers around the polygons of an experiment.
+#' These layers can be used to plot boundaries, for example, to protect agricultural
+#' on-farm experiments from accidental harvesting.
+#'
+#' @param design An \code{sf} object containing the polygons of the experiment.
+#'               The coordinate reference system (crs) of the data needs to be in
+#'               metric distance, not degrees.
+#' @param borders A numeric vector specifying the distances (in meters) for which
+#'                protective layers should be created. The layers will be created
+#'                with decreasing distances, starting from the largest.
+#'
+#' @return An \code{sf} object representing the protective layers around the
+#'         experiment polygons.
+#' @export
+#'
+#' @examples
+#' library(agricolaeplotr)
+#' library(sf)
+#' library(ggplot2)
+#' example("make_polygons")
+#' polygo <- make_polygons(plt, north = 13454206.89, east = 7939183.21)
+#' polygo <- st_transform(polygo, 25832)
+#' pl <- protective_layers(polygo)
+#' # plot experiment shape
+#' ggplot(pl) + geom_sf(fill=c("black","orange","blue","red"))+ theme_minimal()
+#' # write them to kml for Google Maps
+#' # st_write(pl, "boundaries2.kml", append = FALSE)
+#'
+protective_layers <- function(design, borders = c(0, 3, 5, 10)) {
+
+  test_input_shift(borders)
+
+  borders <- unique(sort(borders, decreasing = TRUE))
+  layer_list <- list()
+
+  for (i in 1:length(borders)) {
+    layer_list[[i]] <- st_union(st_buffer(design["x"], borders[i], joinStyle = "MITRE", mitreLimit = 2, endCapStyle = "ROUND"))
+  }
+
+  df <- do.call(rbind, layer_list)
+  df <- st_as_sfc(df)
+  st_crs(df) <- crs(design)
+
+  return(df)
+}
