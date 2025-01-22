@@ -916,7 +916,7 @@ plot_strip <- function(design,
     table[, x] <- as.numeric(table[, factor_name_1]) +
       (max(as.numeric(table[, factor_name_1]))*as.numeric(table$block)-1) -
       (max(as.numeric(table[, factor_name_1])))+1
-
+    table[, x] <- sort(table[, x])
     table[, x]  <- table[, x] * width
     table[, y] <- as.numeric(table[, factor_name_2]) * height
         #########
@@ -925,6 +925,7 @@ plot_strip <- function(design,
   # table[, y]  <- as.numeric(table[, factor_name_2]) +
   #    (max(as.numeric(table[, factor_name_2]))*as.numeric(table$block)-1) -
   #    (max(as.numeric(table[, factor_name_2])))+1
+  # table[, y] <- sort(table[, y])
   # table[, y] <- table[,y] * height
   # table[, x] <- as.numeric(table[, factor_name_1]) * width
 
@@ -1240,7 +1241,7 @@ plot_dau <- function(design,
 
 
 
-###### plot rcdb ######
+###### plot rcbd ######
 
 #' Plot randomized complete block designs
 #'
@@ -1249,14 +1250,17 @@ plot_dau <- function(design,
 #' @param y Describes the y coordinates of a experiment design
 #' @param factor_name Which factor should be used for plotting, needs to be a column in outdesign$book
 #' @param labels Describes the column from that the plots are taken to display them
+#' @param treatment_label Describes the column(s) from the treatments the plots are taken to display them as a label text
 #' @param width numeric value, describes the width of a plot in an experiment
 #' @param height numeric value, describes the height of a plot in an experiment
 #' @param space_width numeric value, describes the share of the space of the plots. 0=only space, 1=no space between plots in term of width
 #' @param space_height numeric value, describes the share of the space of the plots. 0=only space, 1=no space between plots in term of height
+#' @param label_width numeric value, describes the maximum width of a label
 #' @param reverse_y boolean, should the plots of the experiment be changed in reverse order in Row direction? use reverse_y=TRUE to have same sketch as in agricolae. default:reverse_y=FALSE
 #' @param reverse_x boolean, should the plots of the experiment be changed in reverse order in column direction? default:reverse_x=FALSE
 #'
 #' @return \code{ggplot} graphic that can be modified, if wished
+#' @importFrom stringr str_wrap
 #' @export
 #' @examples
 #' library(agricolaeplotr)
@@ -1265,17 +1269,19 @@ plot_dau <- function(design,
 #' # 5 treatments and 6 blocks
 #' trt<-c('A','B','C','D','E')
 #' outdesign <-design.rcbd(trt,6,serie=2,986,'Wichmann-Hill') # seed = 986
-#' plot_rcdb(outdesign)
-#' plot_rcdb(outdesign,reverse_y = TRUE,reverse_x = TRUE)
+#' plot_rcbd(outdesign)
+#' plot_rcbd(outdesign,reverse_y = TRUE,reverse_x = TRUE)
 #'
-plot_rcdb <- function(design,
+plot_rcbd <- function(design,
                       y = "block",
                       factor_name = "trt",
                       labels = "plots",
+                      treatment_label = "trt",
                       width = 1,
                       height = 1,
                       space_width = 0.95,
                       space_height = 0.85,
+                      label_width = 10,
                       reverse_y = FALSE,
                       reverse_x = FALSE) {
   if (design$parameters$design == "rcbd") {
@@ -1310,12 +1316,13 @@ plot_rcdb <- function(design,
     }
     table$col <- table$col * width
     table[, y] <- as.numeric(table[, y]) * height
+    table[, labels] <- str_wrap(table[,treatment_label], width = label_width)
 
     plt <- ggplot(table, aes_string(x = "col", y = y)) +
       geom_tile(aes_string(fill = factor_name),
                 width = width * space_width, height = height *
                   space_height) + theme_bw() + theme(line = element_blank()) +
-      geom_text(aes_string(label = labels), colour = "black")
+      geom_label(aes_string(label = labels), colour = "black",fill= "white")
 
 
     return(plt)
@@ -2714,6 +2721,10 @@ serpentine <- function(n,times,m=1){
 #' @param dist_x numeric indicates the shift in plots in x-axis.
 #' @param dist_y numeric indicates the shift in plots for the y-axis.
 #' @param start_origin boolean. Should the design start at the origin (0|0)?
+#' @param shift_columns numeric indicates the shift of the given plots of a specific row by n units in x-axis.
+#' @param shift_rows numeric indicates the shift of the given plots of a specific column by n units in  y-axis.
+#' @param n_shift_columns numeric vector indicating the number of plots of shift_columns. negative number indicate shift to left, otherwise right
+#' @param n_shift_rows numeric vector indicating the number of plots of shift_rows. negative number indicate shift to left, otherwise right
 #'
 #' @return \code{ggplot} graphic that can be modified, if wished
 #' @export
@@ -2764,6 +2775,15 @@ serpentine <- function(n,times,m=1){
 #'                                     way_x = c(2,4,6,8,10,12),way_y=c(3,8),
 #'                                     start_origin = FALSE, reverse_y = FALSE,
 #'                                     reverse_x = FALSE);p
+#'p <- full_control_positions(design,"col","row","varieties","plots",
+#'                                     width=3,height=4.5,shift_columns=c(4,8),
+#'                                     shift_rows=c(3,5,9),
+#'                                     n_shift_columns=c(1,5),
+#'                                     n_shift_rows=c(1,-2,6),
+#'                                     space_width=0.93,space_height=0.945,
+#'                                     way_x = c(2,4,6,8,10,12),way_y=c(3,8),
+#'                                     start_origin = TRUE, reverse_y = FALSE,
+#'                                     reverse_x = FALSE);p
 
 full_control_positions <- function(design,
                                    x = "col",
@@ -2778,10 +2798,14 @@ full_control_positions <- function(design,
                                    reverse_x = FALSE,
                                    way_x=0,
                                    way_y=0,
+                                   shift_columns=0,
+                                   shift_rows=0,
                                    shift_x=0,
+                                   shift_y=0,
                                    dist_x=1,
                                    dist_y=1,
-                                   shift_y=0,
+                                   n_shift_columns=0,
+                                   n_shift_rows=0,
                                    start_origin=FALSE) {
 
   test_string(x)
@@ -2805,44 +2829,52 @@ full_control_positions <- function(design,
   test_input_shift(dist_x)
   test_input_shift(dist_y)
 
+  test_input_shift(n_shift_columns)
+  test_input_shift(n_shift_rows)
+
+  test_input_shift(shift_columns)
+  test_input_shift(shift_rows)
+
   test_input_reverse(start_origin)
 
 
   table <- design
+  n_vec <- rep(n_shift_columns,length=length(shift_columns))
+  m_vec <- rep(n_shift_rows,length=length(shift_rows))
 
-  if(start_origin == TRUE){
-    shift_x <- width * -0.5 + (width * -0.5 * (1-space_width)) ## makes zero
-    shift_y <- height * -0.5 + (height * -0.5 * (1-space_height)) ## makes zero
+  table[, x]  <- as.numeric(table[, x] )
+  table[, y] <- as.numeric(table[, y])
 
-    table[, x]  <- as.numeric(table[, x] )
-
-    for (i in way_x ){
-      table[, x] <- ifelse(table[, x] > (i + (match(i,way_x) - 1)), table[, x] + dist_x, table[, x])
-      print(design)
+      l <- 1
+    for( i in shift_columns){
+      table[table[,x] == i,y] = table[table[,x] == i,y] + n_vec[l]
+      l <- l + 1
     }
 
-    table[, x]  <- table[, x] * width + shift_x
 
-    table[, y] <- as.numeric(table[, y])
+      l <- 1
+    for( i in shift_rows){
+      table[table[,y] == i,x] = table[table[,y] == i,x] + m_vec[l]
+      l <- l + 1
+    }
+
+    for (i in way_x ){
+        table[, x] <- ifelse(table[, x] > (i + (match(i,way_x) - 1)), table[, x] + dist_x, table[, x])
+    }
+
+
     for (i in way_y ){
       table[, y] <- ifelse(table[, y] > (i + (match(i,way_y) - 1)), table[, y] + dist_y, table[, y])
     }
-    table[, y] <- table[, y] * height + shift_y
-  }
-  else{
-    table[, x]  <- as.numeric(table[, x] )
-    for (i in way_x ){
-      table[, x] <- ifelse(table[, x] > (i + (match(i,way_x) - 1)), table[, x] + dist_x, table[, x])
-      print(design)
-    }
-    table[, x]  <- table[, x] * width + shift_x
 
-    table[, y] <- as.numeric(table[, y])
-    for (i in way_y ){
-      table[, y] <- ifelse(table[, y] > (i + (match(i,way_y) - 1)), table[, y] + dist_y, table[, y])
-    }
+      if(start_origin == TRUE){
+        shift_x <- width * -0.5 + (width * -0.5 * (1-space_width)) ## makes zero
+        shift_y <- height * -0.5 + (height * -0.5 * (1-space_height)) ## makes zero
+      }
+
+    table[, x]  <- table[, x] * width + shift_x
     table[, y] <- table[, y] * height + shift_y
-  }
+
 
   if (reverse_y == TRUE) {
     table[, y] <- abs(table[, y] - max(table[, y])) +

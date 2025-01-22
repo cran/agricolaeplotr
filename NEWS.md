@@ -1,3 +1,7 @@
+# agricolaeplotr 0.6.0
+
+changed function name from `plot_rcdb()` to `plot_rcbd()`.
+
 # agricolaeplotr 0.5.0
 
 # agricolaeplotr 0.4.0

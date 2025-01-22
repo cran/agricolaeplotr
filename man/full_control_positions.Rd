@@ -18,10 +18,14 @@ full_control_positions(
   reverse_x = FALSE,
   way_x = 0,
   way_y = 0,
+  shift_columns = 0,
+  shift_rows = 0,
   shift_x = 0,
+  shift_y = 0,
   dist_x = 1,
   dist_y = 1,
-  shift_y = 0,
+  n_shift_columns = 0,
+  n_shift_rows = 0,
   start_origin = FALSE
 )
 }
@@ -52,13 +56,21 @@ full_control_positions(
 
 \item{way_y}{numeric vector indicates the shift of the nth-plot in y-axis.}
 
+\item{shift_columns}{numeric indicates the shift of the given plots of a specific row by n units in x-axis.}
+
+\item{shift_rows}{numeric indicates the shift of the given plots of a specific column by n units in  y-axis.}
+
 \item{shift_x}{numeric indicates the shift in units in x-axis.}
+
+\item{shift_y}{numeric indicates the shift in units for the y-axis.}
 
 \item{dist_x}{numeric indicates the shift in plots in x-axis.}
 
 \item{dist_y}{numeric indicates the shift in plots for the y-axis.}
 
-\item{shift_y}{numeric indicates the shift in units for the y-axis.}
+\item{n_shift_columns}{numeric vector indicating the number of plots of shift_columns. negative number indicate shift to left, otherwise right}
+
+\item{n_shift_rows}{numeric vector indicating the number of plots of shift_rows. negative number indicate shift to left, otherwise right}
 
 \item{start_origin}{boolean. Should the design start at the origin (0|0)?}
 }
@@ -112,5 +124,14 @@ p <- full_control_positions(design,"col","row","varieties","plots",
                                     space_width=0.93,space_height=0.945,
                                     way_x = c(2,4,6,8,10,12),way_y=c(3,8),
                                     start_origin = FALSE, reverse_y = FALSE,
+                                    reverse_x = FALSE);p
+p <- full_control_positions(design,"col","row","varieties","plots",
+                                    width=3,height=4.5,shift_columns=c(4,8),
+                                    shift_rows=c(3,5,9),
+                                    n_shift_columns=c(1,5),
+                                    n_shift_rows=c(1,-2,6),
+                                    space_width=0.93,space_height=0.945,
+                                    way_x = c(2,4,6,8,10,12),way_y=c(3,8),
+                                    start_origin = TRUE, reverse_y = FALSE,
                                     reverse_x = FALSE);p
 }
