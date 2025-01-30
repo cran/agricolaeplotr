@@ -1,5 +1,5 @@
 .onAttach <- function(libname, pkgname) {
- packageStartupMessage( "\nType 'citation(\"agricolaeplotr\")' for citing this R package in publications.")
+  packageStartupMessage( "\nType 'citation(\"agricolaeplotr\")' for citing this R package in publications.")
 }
 
 
@@ -259,7 +259,7 @@ plot_design.factorial_rcbd <- function(design,
                    by.y = "plots")
 
     table$col <- rep(1:(length(table$plots)/max(as.numeric(table[, y]))),
-                        times = max(as.numeric(table[, y])))
+                     times = max(as.numeric(table[, y])))
 
     # no space, 0 == only space no space, 0
     # == only space
@@ -276,11 +276,11 @@ plot_design.factorial_rcbd <- function(design,
         min(table$col)
     }
 
-    plt <- ggplot(table, aes_string(x = "col", y = y)) +
-      geom_tile(aes_string(fill = factor_name),
+    plt <- ggplot(table, aes(x = .data[["col"]], y = .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
                 width = width * space_width, height = height *
                   space_height) + theme_bw() + theme(line = element_blank()) +
-      geom_text(aes_string(label = "plots"),
+      geom_text(aes(label = .data[["plots"]]),
                 colour = "black")
 
     return(plt)
@@ -339,43 +339,43 @@ plot_design_crd <- function(design,
 
     plots <- as.numeric(design$book[, 1])
     if (ncols * nrows >= length(plots)) {
-    nas <- rep(NaN, ncols * nrows - length(plots))
-    plots <- c(plots, nas)
+      nas <- rep(NaN, ncols * nrows - length(plots))
+      plots <- c(plots, nas)
 
-    mat <- matrix(plots, byrow = TRUE, ncol = ncols)
-    dims <- dim(mat)
-    table <- as.table(mat)
-    rownames(table) <- 1:dims[1]
-    colnames(table) <- 1:dims[2]
-    table <- as.data.frame(table)
-    colnames(table) <- c("row", "col", "plots")
-    table$row <- as.numeric(table$row)
-    table$col <- as.numeric(table$col)
+      mat <- matrix(plots, byrow = TRUE, ncol = ncols)
+      dims <- dim(mat)
+      table <- as.table(mat)
+      rownames(table) <- 1:dims[1]
+      colnames(table) <- 1:dims[2]
+      table <- as.data.frame(table)
+      colnames(table) <- c("row", "col", "plots")
+      table$row <- as.numeric(table$row)
+      table$col <- as.numeric(table$col)
 
-    table <- merge(table, design$book, by.x = "plots",
-                   by.y = "plots")
+      table <- merge(table, design$book, by.x = "plots",
+                     by.y = "plots")
 
-    table$row <- as.numeric(table$row) * height
-    table$col <- as.numeric(table$col) *
-      width
+      table$row <- as.numeric(table$row) * height
+      table$col <- as.numeric(table$col) *
+        width
 
-    if (reverse_y == TRUE) {
-      table$row <- abs(table$row - max(table$row)) +
-        min(table$row)
-    }
-    if (reverse_x == TRUE) {
-      table$col <- abs(table$col - max(table$col)) +
-        min(table$col)
-    }
-    plt <- ggplot(table, aes_string(x = "col", y)) +
-      geom_tile(aes_string(fill = factor_name),
-                width = width * space_width, height = height *
-                  space_height) + theme_bw() + theme(line = element_blank()) +
-      geom_text(aes_string(label = labels), colour = "black")
+      if (reverse_y == TRUE) {
+        table$row <- abs(table$row - max(table$row)) +
+          min(table$row)
+      }
+      if (reverse_x == TRUE) {
+        table$col <- abs(table$col - max(table$col)) +
+          min(table$col)
+      }
+      plt <- ggplot(table, aes(x = .data$col, .data[[y]])) +
+        geom_tile(aes(fill = .data[[factor_name]]),
+                  width = width * space_width, height = height *
+                    space_height) + theme_bw() + theme(line = element_blank()) +
+        geom_text(aes(label = .data[[labels]]), colour = "black")
 
-    plt
+      plt
 
-    return(plt)
+      return(plt)
     } else {
       stop(paste("You have in multiplication of ncols:",
                  ncols, "and nrows:", nrows, "Elements.",
@@ -461,11 +461,11 @@ plot_alpha <- function(design, x = "cols", y = "block",
       table[, y] <- abs(table[, y] - max(table[, y])) +
         min(table[, y])
     }
-    plt <- ggplot(table, aes_string(x, y)) +
-      geom_tile(aes_string(fill = factor_name),
+    plt <- ggplot(table, aes(.data[[x]], .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
                 width = width * space_width, height = height *
                   space_height) + theme_bw() + theme(line = element_blank())+
-      geom_text(aes_string(label = labels), colour = "black")
+      geom_text(aes(label = .data[[labels]]), colour = "black")
 
     plt
 
@@ -555,11 +555,11 @@ plot_lattice_triple <- function(design,
         min(table[, y])
     }
 
-    plt <- ggplot(table, aes_string(x = "part", y)) +
-      geom_tile(aes_string(fill = factor_name),
+    plt <- ggplot(table, aes(x = .data[["part"]], .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
                 width = width * space_width, height = height *
                   space_height) + theme_bw() + theme(line = element_blank())+
-      geom_text(aes_string(label = labels), colour = "black")
+      geom_text(aes(label = .data[[labels]]), colour = "black")
 
     plt
 
@@ -647,12 +647,12 @@ plot_lattice_simple <- function(design,
         min(table[, y])
     }
 
-    plt <- ggplot(table, aes_string(x = "part", y)) +
-      geom_tile(aes_string(fill = factor_name),
-          width = width * space_width, height = height *
-          space_height) +
+    plt <- ggplot(table, aes(x = .data[["part"]], .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
+                width = width * space_width, height = height *
+                  space_height) +
       theme_bw() + theme(line = element_blank()) +
-      geom_text(aes_string(label = labels), colour = "black")
+      geom_text(aes(label = .data[[labels]]), colour = "black")
 
     plt
 
@@ -736,11 +736,11 @@ plot_latin_square <- function(design,
       table[, x]  <- abs(table[, x]  - max(table[, x] )) +
         min(table[, x] )
     }
-    plt <- ggplot(table, aes_string(x = x, y = y)) +
-      geom_tile(aes_string(fill = factor_name),
+    plt <- ggplot(table, aes(x = .data[[x]], y = .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
                 width = width * space_width, height = height *
                   space_height) + theme_bw() + theme(line = element_blank()) +
-      geom_text(aes_string(label = labels), colour = "black")
+      geom_text(aes(label = .data[[labels]]), colour = "black")
 
     plt
 
@@ -827,12 +827,12 @@ plot_graeco <- function(design,
       table[, x]  <- abs(table[, x]  - max(table[, x] )) +
         min(table[, x] )
     }
-    plt <- ggplot(table, aes_string(x, y)) +
-      geom_tile(aes_string(fill = factor_name),
+    plt <- ggplot(table, aes(.data[[x]], .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
                 width = width * space_width,
                 height = height *space_height) +
       theme_bw() + theme(line = element_blank()) +
-      geom_text(aes_string(label = labels), colour = "black")
+      geom_text(aes(label = .data[[labels]]), colour = "black")
 
 
     return(plt)
@@ -911,7 +911,7 @@ plot_strip <- function(design,
     test_name_in_column(labels, design)
 
     table <- as.data.frame(design$book)
-     #########
+    #########
     # if blocks are horizontal:
     table[, x] <- as.numeric(table[, factor_name_1]) +
       (max(as.numeric(table[, factor_name_1]))*as.numeric(table$block)-1) -
@@ -919,15 +919,15 @@ plot_strip <- function(design,
     table[, x] <- sort(table[, x])
     table[, x]  <- table[, x] * width
     table[, y] <- as.numeric(table[, factor_name_2]) * height
-        #########
+    #########
 
-  # if block are not horizontal
-  # table[, y]  <- as.numeric(table[, factor_name_2]) +
-  #    (max(as.numeric(table[, factor_name_2]))*as.numeric(table$block)-1) -
-  #    (max(as.numeric(table[, factor_name_2])))+1
-  # table[, y] <- sort(table[, y])
-  # table[, y] <- table[,y] * height
-  # table[, x] <- as.numeric(table[, factor_name_1]) * width
+    # if block are not horizontal
+    # table[, y]  <- as.numeric(table[, factor_name_2]) +
+    #    (max(as.numeric(table[, factor_name_2]))*as.numeric(table$block)-1) -
+    #    (max(as.numeric(table[, factor_name_2])))+1
+    #  table[, y] <- sort(table[, y])
+    # table[, y] <- table[,y] * height
+    # table[, x] <- as.numeric(table[, factor_name_1]) * width
 
 
 
@@ -940,11 +940,11 @@ plot_strip <- function(design,
       table[, x]  <- abs(table[, x]  - max(table[, x] )) +
         min(table[, x] )
     }
-    plt <- ggplot(table, aes_string(x = x, y = y)) +
-      geom_tile(aes_string(fill = factor_name_1),
+    plt <- ggplot(table, aes(x = .data[[x]], y = .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name_1]]),
                 width = width * space_width, height = height *
                   space_height) + theme_bw() + theme(line = element_blank()) +
-      geom_text(aes_string(label = labels), colour = "black")
+      geom_text(aes(label = .data[[labels]]), colour = "black")
 
 
     return(plt)
@@ -1031,11 +1031,11 @@ plot_bib <- function(design,
       table$col <- abs(table$col - max(table$col)) +
         min(table$col)
     }
-    plt <- ggplot(table, aes_string(x = "col", y = y)) +
-      geom_tile(aes_string(fill = factor_name),
+    plt <- ggplot(table, aes(x = .data[["col"]], y = .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
                 width = width * space_width, height = height *
                   space_height) + theme_bw() + theme(line = element_blank()) +
-      geom_text(aes_string(label = labels), colour = "black")
+      geom_text(aes(label = .data[[labels]]), colour = "black")
 
 
     return(plt)
@@ -1109,7 +1109,7 @@ plot_cyclic <- function(design,
 
     table <- design$book
     table$part <- rep(1:max(table(table[, y])),
-                  times = length(table[, factor_name])/max(table(table[, y])))
+                      times = length(table[, factor_name])/max(table(table[, y])))
 
     table[, y] <- as.numeric(table[, y]) * height
     table$part <- table$part * width
@@ -1122,11 +1122,11 @@ plot_cyclic <- function(design,
       table$part <- abs(table$part - max(table$part)) +
         min(table$part)
     }
-    plt <- ggplot(table, aes_string(x = "part", y = y)) +
-      geom_tile(aes_string(fill = factor_name),
+    plt <- ggplot(table, aes(x = .data[["part"]], y = .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
                 width = width * space_width, height = height *
                   space_height) + theme_bw() + theme(line = element_blank()) +
-      geom_text(aes_string(label = labels), colour = "black")
+      geom_text(aes(label = .data[[labels]]), colour = "black")
 
 
     return(plt)
@@ -1219,11 +1219,11 @@ plot_dau <- function(design,
       table$col <- abs(table$col - max(table$col)) +
         min(table$col)
     }
-    plt <- ggplot(table, aes_string(x = "col", y = y)) +
-      geom_tile(aes_string(fill = factor_name),
+    plt <- ggplot(table, aes(x = .data[["col"]], y = .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
                 width = width * space_width, height = height *
                   space_height) + theme_bw() + theme(line = element_blank()) +
-      geom_text(aes_string(label = labels), colour = "black")
+      geom_text(aes(label = .data[[labels]]), colour = "black")
 
 
     return(plt)
@@ -1318,11 +1318,11 @@ plot_rcbd <- function(design,
     table[, y] <- as.numeric(table[, y]) * height
     table[, labels] <- str_wrap(table[,treatment_label], width = label_width)
 
-    plt <- ggplot(table, aes_string(x = "col", y = y)) +
-      geom_tile(aes_string(fill = factor_name),
+    plt <- ggplot(table, aes(x = .data[["col"]], y = .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
                 width = width * space_width, height = height *
                   space_height) + theme_bw() + theme(line = element_blank()) +
-      geom_label(aes_string(label = labels), colour = "black",fill= "white")
+      geom_label(aes(label = .data[[labels]]), colour = "black",fill= "white")
 
 
     return(plt)
@@ -1406,40 +1406,40 @@ plot_design.factorial_crd <- function(design,
 
     plots <- as.numeric(design$book[, 1])
     if (ncols * nrows >= length(plots)) {
-    nas <- rep(NaN, ncols * nrows - length(plots))
-    plots <- c(plots, nas)
+      nas <- rep(NaN, ncols * nrows - length(plots))
+      plots <- c(plots, nas)
 
-    mat <- matrix(plots, byrow = TRUE, ncol = ncols)
-    dims <- dim(mat)
-    table <- as.table(mat)
-    rownames(table) <- 1:dims[1]
-    colnames(table) <- 1:dims[2]
-    table <- as.data.frame(table)
-    colnames(table) <- c("row", "col", "plots")
-    table[, y] <- as.numeric(table[, y])
-    table$col <- as.numeric(table$col)
+      mat <- matrix(plots, byrow = TRUE, ncol = ncols)
+      dims <- dim(mat)
+      table <- as.table(mat)
+      rownames(table) <- 1:dims[1]
+      colnames(table) <- 1:dims[2]
+      table <- as.data.frame(table)
+      colnames(table) <- c("row", "col", "plots")
+      table[, y] <- as.numeric(table[, y])
+      table$col <- as.numeric(table$col)
 
-    table <- merge(table, design$book, by.x = "plots",
-                   by.y = "plots")
-    table$col <- table$col * width
-    table[, y] <- table[, y] * height
-    if (reverse_y == TRUE) {
-      table[, y] <- abs(table[, y] - max(table[, y])) +
-        min(table[, y])
-    }
-    if (reverse_x == TRUE) {
-      table$col <- abs(table$col - max(table$col)) +
-        min(table$col)
-    }
-    plt <- ggplot(table, aes_string(x = "col", y = y)) +
-      geom_tile(aes_string(fill = factor_name),
-                width = width * space_width, height = height *
-                  space_height) + theme_bw() +
-      theme(line = element_blank()) +
-      geom_text(aes_string(label = labels),
-                colour = "black")
+      table <- merge(table, design$book, by.x = "plots",
+                     by.y = "plots")
+      table$col <- table$col * width
+      table[, y] <- table[, y] * height
+      if (reverse_y == TRUE) {
+        table[, y] <- abs(table[, y] - max(table[, y])) +
+          min(table[, y])
+      }
+      if (reverse_x == TRUE) {
+        table$col <- abs(table$col - max(table$col)) +
+          min(table$col)
+      }
+      plt <- ggplot(table, aes(x = .data[["col"]], y = .data[[y]])) +
+        geom_tile(aes(fill = .data[[factor_name]]),
+                  width = width * space_width, height = height *
+                    space_height) + theme_bw() +
+        theme(line = element_blank()) +
+        geom_text(aes(label = .data[[labels]]),
+                  colour = "black")
 
-    return(plt)
+      return(plt)
     } else {
       stop(paste("You have in multiplication of ncols:",
                  ncols, "and nrows:", nrows, "Elements.",
@@ -1525,14 +1525,13 @@ plot_design.factorial_lsd <- function(design,
       table[, x]  <- abs(table[, x]  - max(table[, x] )) +
         min(table[, x] )
     }
-    plt <- ggplot(table, aes_string(x = x,
-                                                      y = y)) +
-      geom_tile(aes_string(fill = factor_name),
-                  width = width * space_width, height = height *
-              space_height) + theme_bw() +
+    plt <- ggplot(table, aes(x = .data[[x]], y = .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
+                width = width * space_width, height = height *
+                  space_height) + theme_bw() +
       theme(line = element_blank()) +
-      geom_text(aes_string(label = labels),
-                         colour = "black")
+      geom_text(aes(label = .data[[labels]]),
+                colour = "black")
 
     plt
 
@@ -1649,11 +1648,11 @@ plot_split_rcbd <- function(design,
       divider <- length(unique(table[, factor_name_1]))
       table$sequence <- table$sequence/divider
 
-      plt2 <- ggplot(table, aes_string("sequence", y)) +
-        geom_tile(aes_string(fill = factor_name_2),
+      plt2 <- ggplot(table, aes(.data[["sequence"]], .data[[y]])) +
+        geom_tile(aes(fill = .data[[factor_name_2]]),
                   width = width/divider * space_width,
                   height = height * space_height) + theme_bw() +
-        theme(line = element_blank()) + geom_text(aes_string(label = labels),
+        theme(line = element_blank()) + geom_text(aes(label = .data[[labels]]),
                                                   colour = "black")
 
 
@@ -1661,11 +1660,11 @@ plot_split_rcbd <- function(design,
 
     } else{
 
-      plt <- ggplot(table, aes_string("row", y)) +
-        geom_tile(aes_string(fill = factor_name_1),
-        width = width * space_width, height = height * space_height) +
+      plt <- ggplot(table, aes(.data[["row"]], .data[[y]])) +
+        geom_tile(aes(fill = .data[[factor_name_1]]),
+                  width = width * space_width, height = height * space_height) +
         theme_bw() + theme(line = element_blank()) +
-        geom_text(aes_string(label = labels), colour = "black")
+        geom_text(aes(label = .data[[labels]]), colour = "black")
       return(plt)
     }
 
@@ -1746,8 +1745,8 @@ plot_split_lsd <- function(design,
     table <- design$book
 
     table$sequence <- rep(1:(length(unique(table[, factor_name_1])) *
-                             length(unique(table[, factor_name_2]))),
-                        times = max(as.numeric(table$row)))
+                               length(unique(table[, factor_name_2]))),
+                          times = max(as.numeric(table$row)))
 
     table$sequence <- table$sequence * width
 
@@ -1771,25 +1770,25 @@ plot_split_lsd <- function(design,
 
     if(subplots == TRUE){
 
-    divider <- length(unique(table[, factor_name_1]))
-    table$sequence <- table$sequence/divider
+      divider <- length(unique(table[, factor_name_1]))
+      table$sequence <- table$sequence/divider
 
-    plt2 <- ggplot(table, aes_string("sequence", "row")) +
-      geom_tile(aes_string(fill = factor_name_2),
-                width = width/divider * space_width,
-                height = height * space_height) + theme_bw() +
-      theme(line = element_blank()) +
-      geom_text(aes_string(label = labels),colour = "black")
+      plt2 <- ggplot(table, aes(.data[["sequence"]], .data[["row"]])) +
+        geom_tile(aes(fill = .data[[factor_name_2]]),
+                  width = width/divider * space_width,
+                  height = height * space_height) + theme_bw() +
+        theme(line = element_blank()) +
+        geom_text(aes(label = .data[[labels]]),colour = "black")
 
 
-    return(plt2)
+      return(plt2)
     } else {
-      plt <- ggplot(table, aes_string("col", "row")) +
-        geom_tile(aes_string(fill = factor_name_1),
+      plt <- ggplot(table, aes(.data[["col"]], .data[["row"]])) +
+        geom_tile(aes(fill = .data[[factor_name_1]]),
                   width = width * space_width, height = height *
                     space_height) + theme_bw() +
         theme(line = element_blank()) +
-        geom_text(aes_string(label = labels),
+        geom_text(aes(label = .data[[labels]]),
                   colour = "black")
 
       return(plt)
@@ -1924,7 +1923,7 @@ plot_split_crd <- function(design, nrows, ncols,
 
       if (reverse_x == TRUE) {
         table$col <- abs(table$col -
-                              max(table$col)) + min(table$col)
+                           max(table$col)) + min(table$col)
         table$sequence <- abs(table$sequence -
                                 max(table$sequence)) + min(table$sequence)
       }
@@ -1933,25 +1932,25 @@ plot_split_crd <- function(design, nrows, ncols,
 
       if(subplots == TRUE){
 
-      divider <- length(unique(table[, factor_name_1]))
-      table$sequence <- table$sequence/divider
+        divider <- length(unique(table[, factor_name_1]))
+        table$sequence <- table$sequence/divider
 
-      plt2 <- ggplot(table, aes_string("sequence", "row")) +
-        geom_tile(aes_string(fill = factor_name_2),
-                  width = width * space_width/divider,
-                  height = height * space_height) +
-        theme_bw() + theme(line = element_blank()) +
-        geom_text(aes_string(label = labels),
-                  colour = "black")
+        plt2 <- ggplot(table, aes(.data[["sequence"]], .data[["row"]])) +
+          geom_tile(aes(fill = .data[[factor_name_2]]),
+                    width = width * space_width/divider,
+                    height = height * space_height) +
+          theme_bw() + theme(line = element_blank()) +
+          geom_text(aes(label = .data[[labels]]),
+                    colour = "black")
 
-      return(plt2)
+        return(plt2)
       } else {
-        plt <- ggplot(table, aes_string("col", "row")) +
-          geom_tile(aes_string(fill = factor_name_1),
+        plt <- ggplot(table, aes(.data[["col"]], .data[["row"]])) +
+          geom_tile(aes(fill = .data[[factor_name_1]]),
                     width = width * space_width, height = height *
                       space_height) + theme_bw() +
           theme(line = element_blank()) +
-          geom_text(aes_string(label = labels),
+          geom_text(aes(label = .data[[labels]]),
                     colour = "black")
 
         return(plt)
@@ -1980,6 +1979,7 @@ plot_split_crd <- function(design, nrows, ncols,
 #' This theme is designed to increase font size to ensure readability on outdoor used devices
 #' @return ggplot2 theme
 #' @export
+#' @importFrom utils packageVersion
 #'
 #' @examples
 #' library(agricolaeplotr)
@@ -1993,15 +1993,26 @@ plot_split_crd <- function(design, nrows, ncols,
 #' plot_split_crd(outdesign2,ncols = 6,nrows=5)+
 #' theme_pres()
 theme_pres <- function() {
-  theme(text = element_text(size = 16, colour = "black"),
-        axis.text = element_text(size = 18, colour = "black"),
-        axis.title = element_text(size = 18, colour = "black"),
-        axis.line = element_line(colour = "black",
-                                 size = 1, linetype = "solid"),
-        axis.ticks = element_line(colour = "black")) +
-    theme(plot.background = element_rect(fill = "white",
-                                         color = NA),
-          panel.background = element_rect(fill = "white",color = NA))
+  my_theme <- theme(text = element_text(size = 16, colour = "black"),
+                    axis.text = element_text(size = 18, colour = "black"),
+                    axis.title = element_text(size = 18, colour = "black"),
+                    axis.line = element_line(colour = "black",
+                                             linewidth = 1, linetype = "solid"),
+                    axis.ticks = element_line(colour = "black"),
+                    plot.background = element_rect(fill = "white",
+                                                   color = NA),
+                    panel.background = element_rect(fill = "white",color = NA))
+
+  if (utils::packageVersion("ggplot2") >= "3.4.0") {
+    my_theme <- my_theme +
+      theme(axis.line = element_line(colour = "black",
+                                     linewidth = 1, linetype = "solid"))
+  } else {
+    my_theme <- my_theme +
+      theme(axis.line = element_line(colour = "black",
+                                     size = 1, linetype = "solid"))
+  }
+  my_theme
 }
 
 
@@ -2010,6 +2021,7 @@ theme_pres <- function() {
 #' This theme is designed to increase font size to ensure readability on poster presentations
 #' @return ggplot2 theme
 #' @export
+#' @importFrom utils packageVersion
 #'
 #' @examples
 #' library(agricolaeplotr)
@@ -2023,15 +2035,24 @@ theme_pres <- function() {
 #' plot_split_crd(outdesign2,ncols = 6,nrows=5)+
 #' theme_poster()
 theme_poster <- function() {
-  theme(text = element_text(size = 24, colour = "black"),
-        axis.text = element_text(size = 28, colour = "black"),
-        axis.title = element_text(size = 28, colour = "black"),
-        axis.line = element_line(colour = "black",
-                                 size = 1, linetype = "solid"),
-        axis.ticks = element_line(colour = "black")) +
+  my_theme <- theme(text = element_text(size = 24, colour = "black"),
+                    axis.text = element_text(size = 28, colour = "black"),
+                    axis.title = element_text(size = 28, colour = "black"),
+                    axis.ticks = element_line(colour = "black")) +
     theme(plot.background = element_rect(fill = "white",
                                          color = NA),
           panel.background = element_rect(fill = "white", color = NA))
+
+  if (utils::packageVersion("ggplot2") >= "3.4.0") {
+    my_theme <- my_theme +
+      theme(axis.line = element_line(colour = "black",
+                                     linewidth = 1, linetype = "solid"))
+  } else {
+    my_theme <- my_theme +
+      theme(axis.line = element_line(colour = "black",
+                                     size = 1, linetype = "solid"))
+  }
+  my_theme
 }
 
 
@@ -2097,11 +2118,11 @@ plot_youden <- function(design, x = "col", y = "row",
     }
 
 
-    plt <- ggplot(table, aes_string(x = x, y = y)) +
-      geom_tile(aes_string(fill = factor_name),
+    plt <- ggplot(table, aes(x = .data[[x]], y = .data[[y]])) +
+      geom_tile(aes(fill = .data[[factor_name]]),
                 width = width * space_width, height = height *
                   space_height) + theme_bw() + theme(line = element_blank()) +
-      geom_text(aes_string(label = labels), colour = "black")
+      geom_text(aes(label = .data[[labels]]), colour = "black")
 
 
     return(plt)
@@ -2316,17 +2337,17 @@ to_table <- function(object,part="net_plot",unit="m",digits=3,...){
   if(part %in% ("net_plot")){
     df1 <- data.frame(names=rep(0,8))
     df1$names <- c(paste("net plot height:", unit),
-                  paste("net plot width:", unit),
-                  paste("net plot diagonal:", unit),
-                  paste("net plot area:",paste0(unit,"^2")),
-                  paste("share used plot area:"),
-                  paste("share space between plots:"),
-                  paste("space_width:", unit),
-                  paste("space_height:",unit))
+                   paste("net plot width:", unit),
+                   paste("net plot diagonal:", unit),
+                   paste("net plot area:",paste0(unit,"^2")),
+                   paste("share used plot area:"),
+                   paste("share space between plots:"),
+                   paste("space_width:", unit),
+                   paste("space_height:",unit))
 
     df1$vals <- c(x$eff_height_plot,x$eff_width_plot,x$net_plot_diagonal,
-                 x$eff_plot_size,x$share_eff_plot,x$share_space_plot,
-                 x$abs_space_height,x$abs_space_width)
+                  x$eff_plot_size,x$share_eff_plot,x$share_space_plot,
+                  x$abs_space_height,x$abs_space_width)
 
     df1$vals <- signif(df1$vals,digits=digits)
     return(df1)
@@ -2336,19 +2357,19 @@ to_table <- function(object,part="net_plot",unit="m",digits=3,...){
     df2 <- data.frame(names=rep(0,9))
 
     df2$names <- c(paste("gross plot height:", unit),
-                  paste("gross plot width:", unit),
-                  paste("gross plot diagonal:", unit),
-                  paste("gross plot area:",paste0(unit,"^2")),
-                  paste("gross space area:", paste0(unit,"^2")),
+                   paste("gross plot width:", unit),
+                   paste("gross plot diagonal:", unit),
+                   paste("gross plot area:",paste0(unit,"^2")),
+                   paste("gross space area:", paste0(unit,"^2")),
 
-                  paste("share used plot area: %/100"),
-                  paste("share space between plots: %/100"),
-                  paste("space_width:", unit),
-                  paste("space_height:", unit))
+                   paste("share used plot area: %/100"),
+                   paste("share space between plots: %/100"),
+                   paste("space_width:", unit),
+                   paste("space_height:", unit))
 
     df2$vals <- c(x$gross_height_plot,x$gross_width_plot,x$gross_plot_diagonal,
-                 x$total_area_plot,x$space_between,x$share_eff_plot,x$share_space_plot,
-                 x$abs_space_height,x$abs_space_width)
+                  x$total_area_plot,x$space_between,x$share_eff_plot,x$share_space_plot,
+                  x$abs_space_height,x$abs_space_width)
 
     df2$vals <- signif(df2$vals,digits=digits)
     return(df2)
@@ -2360,18 +2381,18 @@ to_table <- function(object,part="net_plot",unit="m",digits=3,...){
     df3 <- data.frame(names=rep(0,9))
 
     df3$names <- c(paste("relative design height:"),
-                  paste("relative design width:"),
-                  paste("net experiment diagonal:", unit),
-                  paste("net experiment width:", unit),
-                  paste("net experiment height:", unit),
-                  paste("used plot area:",paste0(unit,"^2")),
-                  paste("used area DOE:",paste0(unit,"^2")),
-                  paste("used outer area:",paste0(unit,"^2")),
-                  paste("outer field diagonal:", unit))
+                   paste("relative design width:"),
+                   paste("net experiment diagonal:", unit),
+                   paste("net experiment width:", unit),
+                   paste("net experiment height:", unit),
+                   paste("used plot area:",paste0(unit,"^2")),
+                   paste("used area DOE:",paste0(unit,"^2")),
+                   paste("used outer area:",paste0(unit,"^2")),
+                   paste("outer field diagonal:", unit))
 
 
     df3$vals <- c(x$rel_space_height,x$rel_space_width,x$experiment_diagonal,x$eff_width,
-                 x$eff_height,x$eff_total_area,x$outer_area,x$total_area,x$outer_diagonal)
+                  x$eff_height,x$eff_total_area,x$outer_area,x$total_area,x$outer_diagonal)
 
     df3$vals <- signif(df3$vals,digits=digits)
     return(df3)
@@ -2382,22 +2403,22 @@ to_table <- function(object,part="net_plot",unit="m",digits=3,...){
     df4 <- data.frame(names=rep(0,8))
 
     df4$names <-c("xmin:",
-                 "xmax:",
-                 "ymin:",
-                 "ymax:",
-                 "number columns:",
-                 "number rows:",
-                 "number of plots:",
-                 "number of factors:")
+                  "xmax:",
+                  "ymin:",
+                  "ymax:",
+                  "number columns:",
+                  "number rows:",
+                  "number of plots:",
+                  "number of factors:")
 
     df4$vals <- c(x$xmin,
-                 x$xmax,
-                 x$ymin,
-                 x$ymax,
-                 x$n_cols,
-                 x$n_rows,
-                 x$n_plots,
-                 x$n_fac)
+                  x$xmax,
+                  x$ymin,
+                  x$ymax,
+                  x$n_cols,
+                  x$n_rows,
+                  x$n_plots,
+                  x$n_fac)
 
     df4$vals <- signif(df4$vals,digits=digits)
     return(df4)
@@ -2460,7 +2481,7 @@ to_table <- function(object,part="net_plot",unit="m",digits=3,...){
 
 
 
-   }
+}
 
 
 #' make_polygons
@@ -2546,7 +2567,7 @@ make_polygons <- function(ggplot_object,
 theme_gi <- function(){
   theme_bw() +
     theme(text=element_text(size = 10, angle = 0))
-    theme(axis.text = element_text(colour = "black"))+
+  theme(axis.text = element_text(colour = "black"))+
     theme(axis.title = element_text(hjust = 0.5))
 }
 
@@ -2627,47 +2648,47 @@ plot_fieldhub <- function(design,
 
   } else {print("Your Design ID is supported.")}
 
-    design$book <- design$fieldBook
-    test_string(x)
-    test_string(y)
+  design$book <- design$fieldBook
+  test_string(x)
+  test_string(y)
 
-    test_input_reverse(reverse_x)
-    test_input_reverse(reverse_y)
+  test_input_reverse(reverse_x)
+  test_input_reverse(reverse_y)
 
-    test_input_extend(height)
-    test_input_extend(width)
+  test_input_extend(height)
+  test_input_extend(width)
 
-    test_input_extend(space_height)
-    test_input_extend(space_width)
+  test_input_extend(space_height)
+  test_input_extend(space_width)
 
-    test_input_shift(shift_x)
-    test_input_shift(shift_y)
+  test_input_shift(shift_x)
+  test_input_shift(shift_y)
 
-    test_name_in_column(labels, design)
+  test_name_in_column(labels, design)
 
-    table <- as.data.frame(design$book)
-    table[, x]  <- as.numeric(table[, x] ) * width + shift_x
-    table[, y] <- as.numeric(table[, y]) * height + shift_y
-    if (reverse_y == TRUE) {
-      table[, y] <- abs(table[, y] - max(table[, y])) +
-        min(table[, y])
-    }
-    if (reverse_x == TRUE) {
-      table[, x]  <- abs(table[, x]  - max(table[, x] )) +
-        min(table[, x] )
-    }
-    plt <- ggplot(table, aes(.data[[x]], .data[[y]])) +
-      geom_tile(aes(fill = .data[[factor_name]]),
-                width = width * space_width, height = height *
-                  space_height) + theme_bw() + theme(line = element_blank()) +
-      geom_text(aes(label = .data[[labels]]), colour = "black")# +
-    # + facet_grid(reformulate(replication_name,location_name))
-
-    plt
-
-    return(plt)
-
+  table <- as.data.frame(design$book)
+  table[, x]  <- as.numeric(table[, x] ) * width + shift_x
+  table[, y] <- as.numeric(table[, y]) * height + shift_y
+  if (reverse_y == TRUE) {
+    table[, y] <- abs(table[, y] - max(table[, y])) +
+      min(table[, y])
   }
+  if (reverse_x == TRUE) {
+    table[, x]  <- abs(table[, x]  - max(table[, x] )) +
+      min(table[, x] )
+  }
+  plt <- ggplot(table, aes(.data[[x]], .data[[y]])) +
+    geom_tile(aes(fill = .data[[factor_name]]),
+              width = width * space_width, height = height *
+                space_height) + theme_bw() + theme(line = element_blank()) +
+    geom_text(aes(label = .data[[labels]]), colour = "black")# +
+  # + facet_grid(reformulate(replication_name,location_name))
+
+  plt
+
+  return(plt)
+
+}
 
 
 
@@ -2845,35 +2866,35 @@ full_control_positions <- function(design,
   table[, x]  <- as.numeric(table[, x] )
   table[, y] <- as.numeric(table[, y])
 
-      l <- 1
-    for( i in shift_columns){
-      table[table[,x] == i,y] = table[table[,x] == i,y] + n_vec[l]
-      l <- l + 1
-    }
+  l <- 1
+  for( i in shift_columns){
+    table[table[,x] == i,y] = table[table[,x] == i,y] + n_vec[l]
+    l <- l + 1
+  }
 
 
-      l <- 1
-    for( i in shift_rows){
-      table[table[,y] == i,x] = table[table[,y] == i,x] + m_vec[l]
-      l <- l + 1
-    }
+  l <- 1
+  for( i in shift_rows){
+    table[table[,y] == i,x] = table[table[,y] == i,x] + m_vec[l]
+    l <- l + 1
+  }
 
-    for (i in way_x ){
-        table[, x] <- ifelse(table[, x] > (i + (match(i,way_x) - 1)), table[, x] + dist_x, table[, x])
-    }
+  for (i in way_x ){
+    table[, x] <- ifelse(table[, x] > (i + (match(i,way_x) - 1)), table[, x] + dist_x, table[, x])
+  }
 
 
-    for (i in way_y ){
-      table[, y] <- ifelse(table[, y] > (i + (match(i,way_y) - 1)), table[, y] + dist_y, table[, y])
-    }
+  for (i in way_y ){
+    table[, y] <- ifelse(table[, y] > (i + (match(i,way_y) - 1)), table[, y] + dist_y, table[, y])
+  }
 
-      if(start_origin == TRUE){
-        shift_x <- width * -0.5 + (width * -0.5 * (1-space_width)) ## makes zero
-        shift_y <- height * -0.5 + (height * -0.5 * (1-space_height)) ## makes zero
-      }
+  if(start_origin == TRUE){
+    shift_x <- width * -0.5 + (width * -0.5 * (1-space_width)) ## makes zero
+    shift_y <- height * -0.5 + (height * -0.5 * (1-space_height)) ## makes zero
+  }
 
-    table[, x]  <- table[, x] * width + shift_x
-    table[, y] <- table[, y] * height + shift_y
+  table[, x]  <- table[, x] * width + shift_x
+  table[, y] <- table[, y] * height + shift_y
 
 
   if (reverse_y == TRUE) {
@@ -2884,11 +2905,11 @@ full_control_positions <- function(design,
     table[, x]  <- abs(table[, x]  - max(table[, x] )) +
       min(table[, x] )
   }
-  plt <- ggplot(table, aes_string(x = x, y = y)) +
-    geom_tile(aes_string(fill = factor_name),
+  plt <- ggplot(table, aes(x = .data[[x]], y = .data[[y]])) +
+    geom_tile(aes(fill = .data[[factor_name]]),
               width = width * space_width, height = height *
                 space_height) + theme_bw() + theme(line = element_blank()) +
-    geom_text(aes_string(label = labels), colour = "black")
+    geom_text(aes(label = .data[[labels]]), colour = "black")
 
   plt
 
@@ -3133,3 +3154,4 @@ protective_layers <- function(design, borders = c(0, 3, 5, 10)) {
 
   return(df)
 }
+

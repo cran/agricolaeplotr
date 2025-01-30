@@ -1,3 +1,7 @@
+# agricolaeplotr 0.6.1
+
+ Changed functions and tests as ggplot2 will be updated so direct access of `plt$label` is not longer possible.
+
 # agricolaeplotr 0.6.0
 
 changed function name from `plot_rcdb()` to `plot_rcbd()`.

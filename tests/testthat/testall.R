@@ -1,3 +1,8 @@
+get_labs <- function(x) x$labels
+if ("get_labs" %in% getNamespaceExports("ggplot2")) {
+  get_labs <- ggplot2::get_labs
+}
+
 test_that("throws error if data type is not an integer but a string", {
   expect_error(test_input_extend("3"))
 })
@@ -10,8 +15,8 @@ test_that("throws error if data type is not an integer but a boolean", {
 sd <- "cat2"
 test_that("throws error if data type is not an integer
           but an object containg string", {
-  expect_error(test_input_extend(sd))
-})
+            expect_error(test_input_extend(sd))
+          })
 
 test_that("throws error if data type is not an integer but an float", {
   expect_silent(test_input_extend(2.5))
@@ -22,8 +27,8 @@ test_that("keeps silent if data type is correct integer ", {
 sd <- 10.5
 test_that("throws error if data type is not an integer
           but an object containing float ", {
-  expect_silent(test_input_extend(sd))
-})
+            expect_silent(test_input_extend(sd))
+          })
 
 test_that("throws error if data type is not an integer but a string", {
   expect_error(test_input_extend("3"))
@@ -37,8 +42,8 @@ test_that("throws error if data type is not an integer but boolean", {
 sd <- "cat2"
 test_that("throws error if data type is not an
           integer but an object containg a string", {
-  expect_error(test_input_extend(sd))
-})
+            expect_error(test_input_extend(sd))
+          })
 
 test_that("throws error if data type is not an integer but ", {
   expect_silent(test_input_extend(2.5))
@@ -78,18 +83,18 @@ test_that("throws error if data type is not a string but a float", {
 })  # no messages if success
 test_that("throws error if data type is not a string
           but a negative sign float", {
-  expect_error(test_string(-2.4))
-})  # no messages if success
+            expect_error(test_string(-2.4))
+          })  # no messages if success
 sd <- 12.55
 test_that("throws error if data type is not a string
           but an object containing float", {
-  expect_error(test_string(sd))
-})  # no messages if success
+            expect_error(test_string(sd))
+          })  # no messages if success
 sd <- "cat2"
 test_that("if data type is correct and also works with
           object containing correct data type", {
-  expect_silent(test_string(sd))
-})  # no messages if success
+            expect_silent(test_string(sd))
+          })  # no messages if success
 
 ##### test column and row indicator #######
 
@@ -98,37 +103,37 @@ test_that("throws error if data type is not an integer but a string", {
 })
 test_that("throws error if data type is not an integer
           but a float with negative sign", {
-  expect_error(test_input_ncols(-2.5))
-})
+            expect_error(test_input_ncols(-2.5))
+          })
 test_that("throws error if data type is not an integer but a boolean", {
   expect_error(test_input_ncols(TRUE))
 })
 sd <- "cat2"
 test_that("throws error if data type is not an integer
           but an object containing a string", {
-  expect_error(test_input_ncols(sd))
-})
+            expect_error(test_input_ncols(sd))
+          })
 
 test_that("throws error if data type is not an integer
           but a float with positive sign", {
-  expect_error(test_input_ncols(2.5))
-})
+            expect_error(test_input_ncols(2.5))
+          })
 test_that("keeps silent if input is correctly defined", {
   expect_silent(test_input_ncols(2))
 })
 test_that("throws error if data type is not an
           positive integer", {
-  expect_error(test_input_ncols(-2))
-})
+            expect_error(test_input_ncols(-2))
+          })
 
 sd <- 10.5
 test_that("throws error if number is not greater than zero", {
-            expect_error(test_input_ncols(0))
-          })
+  expect_error(test_input_ncols(0))
+})
 test_that("throws error if data type is not an integer
           but an object containing a float", {
-  expect_error(test_input_ncols(sd))
-})
+            expect_error(test_input_ncols(sd))
+          })
 test_that("throws error if length > 1", {
   expect_error(test_input_ncols(c(2, 3, 4)))
 })
@@ -139,15 +144,15 @@ test_that("throws error if data type is not an integer but a string", {
 })
 test_that("throws error if data type is not an integer
           but a float with negative sign", {
-  expect_error(test_input_nrows(-2.5))
-})
+            expect_error(test_input_nrows(-2.5))
+          })
 test_that("throws error if data type is not an integer
           but a integer with negative sign", {
-  expect_error(test_input_nrows(-2))
-})
-test_that("throws error if number is not greater than zero", {
-            expect_error(test_input_nrows(0))
+            expect_error(test_input_nrows(-2))
           })
+test_that("throws error if number is not greater than zero", {
+  expect_error(test_input_nrows(0))
+})
 
 test_that("throws error if data type is not an integer but a boolean", {
   expect_error(test_input_nrows(TRUE))
@@ -155,21 +160,21 @@ test_that("throws error if data type is not an integer but a boolean", {
 sd <- "cat2"
 test_that("throws error if data type is not an integer
           but an object containing a string", {
-  expect_error(test_input_nrows(sd))
-})
+            expect_error(test_input_nrows(sd))
+          })
 
 test_that("throws error if data type is not an integer
           but a float with negative sign", {
-  expect_error(test_input_nrows(2.5))
-})
+            expect_error(test_input_nrows(2.5))
+          })
 test_that("keeps silent if input is correcty defined", {
   expect_silent(test_input_nrows(2))
 })
 sd <- 10.5
 test_that("throws error if data type is not an integer
           but an object containing a float with negative sign", {
-  expect_error(test_input_nrows(sd))
-})
+            expect_error(test_input_nrows(sd))
+          })
 test_that("throws error if length > 1", {
   expect_error(test_input_nrows(c(2, 3, 4)))
 })
@@ -415,7 +420,7 @@ test_that("plot a ggplot alpha design", {
   outdesign <- design.alpha(trt, k, r, serie = 2)
   p <- plot_alpha(outdesign, reverse_y = TRUE,
                   reverse_x = TRUE)
-  expect_identical(p$labels$y, "block")
+  expect_identical(get_labs(p)$y, "block")
 })
 
 
@@ -427,7 +432,7 @@ test_that("plot a ggplot bib", {
   p <- plot_bib(outdesign, reverse_y = TRUE,
                 reverse_x = TRUE, y="block")
   p
-  expect_identical(p$labels$y, "block")
+  expect_identical(get_labs(p)$y, "block")
 })
 
 
@@ -445,7 +450,7 @@ test_that("plot a ggplot cyclic",
                              factor_name = "trt",
                              reverse_y = TRUE, reverse_x = TRUE)
             p
-            expect_identical(p$labels$y,
+            expect_identical(get_labs(p)$y,
                              "block")
           })
 
@@ -456,7 +461,7 @@ test_that("plot a ggplot dau design", {
   p <- plot_dau(outdesign, reverse_y = TRUE,
                 reverse_x = TRUE)
   p
-  expect_identical(p$labels$y, "block")
+  expect_identical(get_labs(p)$y, "block")
 })
 
 test_that("plot a factorial crd design", {
@@ -466,7 +471,7 @@ test_that("plot a factorial crd design", {
   p <- plot_design.factorial_crd(outdesign, ncols = 5,
                                  nrows = 6, reverse_y = TRUE, reverse_x = TRUE)
   p
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 test_that("plot a factorial lsd design", {
@@ -475,7 +480,7 @@ test_that("plot a factorial lsd design", {
                          design = "lsd")
   p <- plot_design.factorial_lsd(outdesign,
                                  reverse_y = TRUE, reverse_x = TRUE)
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 test_that("plot a factorial rcbd design", {
@@ -485,7 +490,7 @@ test_that("plot a factorial rcbd design", {
                          design = "rcbd")
   p <- plot_design.factorial_rcbd(outdesign,
                                   reverse_y = TRUE, reverse_x = TRUE)
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 test_that("plot error due to low nrow number factorial crd",
@@ -494,8 +499,8 @@ test_that("plot error due to low nrow number factorial crd",
             outdesign <- design.ab(trt, r = 3, serie = 2,
                                    design = "crd")
             expect_error(plot_design.factorial_crd(outdesign,
-                         ncols = 5, nrows = 2, reverse_y = TRUE,
-                         reverse_x = TRUE))
+                                                   ncols = 5, nrows = 2, reverse_y = TRUE,
+                                                   reverse_x = TRUE))
           })
 
 
@@ -505,9 +510,9 @@ test_that("plot error due to low nrow number split plot crd",
             T2 <- c("v", "w", "x", "y", "zzz")
             r <- 4
             outdesign <- design.split(trt1 = T1, trt2 = T2, r = r,
-                        serie = 2, seed = 0, kinds = "Super-Duper",
-                        randomization = TRUE,
-                      first = TRUE, design = "crd")
+                                      serie = 2, seed = 0, kinds = "Super-Duper",
+                                      randomization = TRUE,
+                                      first = TRUE, design = "crd")
             expect_error(plot_split_crd(outdesign, ncols = 1, nrows = 5))
           })
 
@@ -519,7 +524,7 @@ test_that("plot a youden design", {
                              seed = 23)
   p <- plot_youden(outdesign, labels = "varieties",
                    reverse_y = TRUE, reverse_x = TRUE)
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 test_that("plot a strip design", {
@@ -532,7 +537,7 @@ test_that("plot a strip design", {
   p <- plot_strip(outdesign, factor_name_1 = "T1",factor_name_2="T2",
                   reverse_y = TRUE, reverse_x = TRUE)
   p
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 test_that("plot a rcbd design", {
@@ -542,7 +547,7 @@ test_that("plot a rcbd design", {
   p <- plot_rcbd(outdesign, reverse_y = TRUE,
                  reverse_x = TRUE)
   p
-  expect_identical(p$labels$y, "block")
+  expect_identical(get_labs(p)$y, "block")
 })
 
 
@@ -553,7 +558,7 @@ test_that("plot a crd design", {
   p <- plot_design_crd(outdesign1, ncols = 13, nrows = 3,
                        reverse_y = TRUE, reverse_x = TRUE)
   p
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 test_that("plot a graeco design", {
@@ -565,7 +570,7 @@ test_that("plot a graeco design", {
   p <- plot_graeco(outdesign, factor_name = "T2",
                    reverse_y = TRUE, reverse_x = TRUE)
   p
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 
@@ -576,7 +581,7 @@ test_that("plot a lattice triple design", {
                            reverse_x = TRUE, reverse_y = TRUE)
 
 
-  expect_identical(p$labels$y, "block")
+  expect_identical(get_labs(p)$y, "block")
 })
 
 
@@ -584,9 +589,9 @@ test_that("plot a lattice simple design", {
   trt <- 1:100
   outdesign <- design.lattice(trt, r = 2, serie = 3)
   p <- plot_lattice_simple(outdesign, width = 2,
-    height = 1, reverse_y = TRUE, reverse_x = TRUE)
+                           height = 1, reverse_y = TRUE, reverse_x = TRUE)
 
-  expect_identical(p$labels$y, "block")
+  expect_identical(get_labs(p)$y, "block")
 })
 
 test_that("plot a latin square design", {
@@ -595,7 +600,7 @@ test_that("plot a latin square design", {
   p <- plot_latin_square(outdesign, reverse_y = TRUE,
                          reverse_x = TRUE)
 
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 
@@ -605,7 +610,7 @@ test_that("plot a latin square design", {
   p <- plot_latin_square(outdesign, reverse_y = TRUE,
                          reverse_x = TRUE)
 
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 test_that("plot a latin square design theme_pres", {
@@ -614,7 +619,7 @@ test_that("plot a latin square design theme_pres", {
   p <- plot_latin_square(outdesign, reverse_y = TRUE,
                          reverse_x = TRUE)
   p <- p + theme_pres()
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 test_that("plot a latin square design theme_poster",
           {
@@ -625,7 +630,7 @@ test_that("plot a latin square design theme_poster",
                                    reverse_x = TRUE)
             p <- p + theme_poster()
             p
-            expect_identical(p$labels$y, "row")
+            expect_identical(get_labs(p)$y, "row")
           })
 
 
@@ -640,7 +645,7 @@ test_that("plot a split plot design crd  for subplots", {
                       reverse_y = TRUE, reverse_x = TRUE,subplots = TRUE)
   p <- p + theme_poster()
   p
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 test_that("plot a split plot design rcbd  for subplots", {
@@ -648,14 +653,14 @@ test_that("plot a split plot design rcbd  for subplots", {
   t2 <- c("v", "w", "x", "y", "z")
   r <- 3
   outdesign2 <- design.split(trt1 = t1, trt2 = t2,
-                    r = r, serie = 2, seed = 0, kinds = "Super-Duper",
-                    randomization = TRUE, first = TRUE, design = "rcbd")
+                             r = r, serie = 2, seed = 0, kinds = "Super-Duper",
+                             randomization = TRUE, first = TRUE, design = "rcbd")
   p <- plot_split_rcbd(outdesign2, width = 5, height = 5,
                        reverse_x = TRUE, reverse_y = TRUE, factor_name_1 = "t1",
                        factor_name_2 = "t2")
   p <- p + theme_poster()
 
-  expect_identical(p$labels$y, "block")
+  expect_identical(get_labs(p)$y, "block")
 })
 
 test_that("plot a split plot design lsd for subplots", {
@@ -667,7 +672,7 @@ test_that("plot a split plot design lsd for subplots", {
   p <- plot_split_lsd(outdesign2, width = 4, height = 4,
                       reverse_y = TRUE, reverse_x = TRUE)
   p
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 
@@ -683,7 +688,7 @@ test_that("plot a split plot design crd for main plots", {
                       reverse_y = TRUE, reverse_x = TRUE,  subplots = FALSE)
   p <- p + theme_poster()
   p
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 test_that("plot a split plot design rcbd for main plots", {
@@ -700,7 +705,7 @@ test_that("plot a split plot design rcbd for main plots", {
                        subplots = FALSE, factor_name_1 = "t1",
                        factor_name_2 = "t2")
   p
-  expect_identical(p$labels$y, "block")
+  expect_identical(get_labs(p)$y, "block")
 })
 
 
@@ -714,16 +719,16 @@ test_that("plot a split plot design lsd for main plots", {
   p <- plot_split_lsd(outdesign2, width = 4, height = 4,
                       reverse_y = TRUE, reverse_x = TRUE, subplots = FALSE)
   p
-  expect_identical(p$labels$y, "row")
+  expect_identical(get_labs(p)$y, "row")
 })
 
 test_that("plot a split plot design lsd for main plots", {
-trt<-LETTERS[1:9]
-outdesign<-design.lattice(trt,r=3,serie=2)
-p <- plot_lattice_triple(outdesign)
+  trt<-LETTERS[1:9]
+  outdesign<-design.lattice(trt,r=3,serie=2)
+  p <- plot_lattice_triple(outdesign)
 
-p
-expect_identical(p$labels$y, "block")
+  p
+  expect_identical(get_labs(p)$y, "block")
 
 })
 
@@ -734,7 +739,7 @@ test_that("plot a split plot design lsd for main plots", {
   p <- plot_lattice_triple(outdesign)
 
   p
-  expect_identical(p$labels$y, "block")
+  expect_identical(get_labs(p)$y, "block")
 
 })
 
@@ -744,7 +749,7 @@ test_that("plot a split plot design lsd for main plots", {
   p <- plot_lattice_triple(outdesign)
 
   p
-  expect_identical(p$labels$y, "block")
+  expect_identical(get_labs(p)$y, "block")
 
 })
 
@@ -754,7 +759,7 @@ test_that("plot a split plot design lsd for main plots", {
   p <- plot_lattice_triple(outdesign)
 
   p
-  expect_identical(p$labels$y, "block")
+  expect_identical(get_labs(p)$y, "block")
 
 })
 
@@ -807,22 +812,22 @@ test_that("plot has correct properties", {
 })
 
 test_that("plot a plot design from FielDHub package shows ROW as y axis", {
-SpatpREP1 <- partially_replicated(nrows = 25,
-                                  ncols = 18,
-                                  repGens = c(280,50,10,1,1),
-                                  repUnits = c(1,2,3,20,20),
-                                  planter = "cartesian",
-                                  plotNumber = 101,
-                                  seed = 77)
+  SpatpREP1 <- partially_replicated(nrows = 25,
+                                    ncols = 18,
+                                    repGens = c(280,50,10,1,1),
+                                    repUnits = c(1,2,3,20,20),
+                                    planter = "cartesian",
+                                    plotNumber = 101,
+                                    seed = 77)
 
-p <- plot_fieldhub(SpatpREP1,
-labels = "PLOT",
-factor_name = "PLOT",
-width = 12,
-height = 10,
-reverse_y = TRUE,
-reverse_x = TRUE)
-  expect_identical(p$labels$y, "ROW")
+  p <- plot_fieldhub(SpatpREP1,
+                     labels = "PLOT",
+                     factor_name = "PLOT",
+                     width = 12,
+                     height = 10,
+                     reverse_y = TRUE,
+                     reverse_x = TRUE)
+  expect_identical(get_labs(p)$y, "ROW")
 
 })
 
@@ -844,6 +849,6 @@ test_that("plot a plot design from FielDHub package shows COLUMN as x axis", {
                      reverse_x = TRUE)
 
 
-  expect_identical(p$labels$x, "COLUMN")
+  expect_identical(get_labs(p)$x, "COLUMN")
 
 })

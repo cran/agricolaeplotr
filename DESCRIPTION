@@ -2,7 +2,7 @@ Package: agricolaeplotr
 Type: Package
 Title: Visualization of Design of Experiments from the 'agricolae'
         Package
-Version: 0.6.0
+Version: 0.6.1
 Authors@R: 
     person(family="Harbers", given="Jens", email="jensharbers@gmail.com", role=c("aut","cre"),
            comment = c(ORCID = "0000-0001-6634-623X"))
@@ -25,7 +25,7 @@ Depends: R (>= 4.0)
 VignetteBuilder: knitr
 Note: 'None'
 NeedsCompilation: no
-Packaged: 2025-01-22 13:00:03 UTC; Jens Harbers
+Packaged: 2025-01-30 16:18:08 UTC; Jens Harbers
 Author: Jens Harbers [aut, cre] (<https://orcid.org/0000-0001-6634-623X>)
 Repository: CRAN
-Date/Publication: 2025-01-22 13:20:02 UTC
+Date/Publication: 2025-01-30 16:50:02 UTC
