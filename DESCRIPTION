@@ -2,7 +2,7 @@ Package: agricolaeplotr
 Type: Package
 Title: Visualization of Design of Experiments from the 'agricolae'
         Package
-Version: 0.6.1
+Version: 1.0.0
 Authors@R: 
     person(family="Harbers", given="Jens", email="jensharbers@gmail.com", role=c("aut","cre"),
            comment = c(ORCID = "0000-0001-6634-623X"))
@@ -15,7 +15,6 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Imports: ggplot2, agricolae, raster, sp (>= 2.0.0), methods, FielDHub,
         utils, tibble, sf, dplyr, tidyr, stringr, stplanr, ggspatial
-RoxygenNote: 7.2.3
 Language: en-US
 Suggests: testthat (>= 3.0.0), knitr, rmarkdown, leaflet
 Config/testthat/edition: 3
@@ -24,8 +23,10 @@ URL: https://github.com/jensharbers/agricolaeplotr
 Depends: R (>= 4.0)
 VignetteBuilder: knitr
 Note: 'None'
+Config/roxygen2/version: 8.0.0
 NeedsCompilation: no
-Packaged: 2025-01-30 16:18:08 UTC; Jens Harbers
-Author: Jens Harbers [aut, cre] (<https://orcid.org/0000-0001-6634-623X>)
+Packaged: 2026-05-10 20:15:48 UTC; JensH
+Author: Jens Harbers [aut, cre] (ORCID:
+    <https://orcid.org/0000-0001-6634-623X>)
 Repository: CRAN
-Date/Publication: 2025-01-30 16:50:02 UTC
+Date/Publication: 2026-05-11 05:00:02 UTC

@@ -1,5 +1,5 @@
 ## ----setup, eval = FALSE------------------------------------------------------
-#  install.packages("agricolaeplotr")
+# install.packages("agricolaeplotr")
 
 ## ----message=FALSE, warning=FALSE---------------------------------------------
 library("ggplot2")
@@ -17,47 +17,47 @@ head(outdesign$book,10)
 plot_design.factorial_crd(outdesign,ncols=7,nrows=3, width = 1, height = 1)
 
 
-## ---- echo=TRUE, results='asis'-----------------------------------------------
+## ----echo=TRUE, results='asis'------------------------------------------------
 plot_design.factorial_crd(outdesign,ncols=6,nrows=3, width = 1, height = 1, reverse_y = TRUE)
 
-## ---- echo=TRUE, results='asis'-----------------------------------------------
+## ----echo=TRUE, results='asis'------------------------------------------------
 plot_design.factorial_crd(outdesign,ncols=6,nrows=3, width = 1, height = 1, reverse_x = TRUE)
 
-## ---- results='asis'----------------------------------------------------------
+## ----results='asis'-----------------------------------------------------------
 plot_design.factorial_crd(outdesign,ncols=6,nrows=3, width = 1, height = 1, reverse_x = TRUE,reverse_y = TRUE)
 
-## ---- echo = TRUE, results='asis'---------------------------------------------
+## ----echo = TRUE, results='asis'----------------------------------------------
 plot_design.factorial_crd(outdesign,ncols=6,nrows=3, width = 1, height = 2.5 , reverse_x = FALSE,reverse_y = TRUE)
 
-## ---- echo = TRUE, results='asis'---------------------------------------------
+## ----echo = TRUE, results='asis'----------------------------------------------
 plot_design.factorial_crd(outdesign,ncols=6,nrows=3, width = 1, height = 2.5 , reverse_x = FALSE,reverse_y = TRUE,space_width = 1,space_height = 1)
 
-## ---- echo = TRUE, results='asis'---------------------------------------------
+## ----echo = TRUE, results='asis'----------------------------------------------
 plot_design.factorial_crd(outdesign,ncols=6,nrows=3, width = 1, height = 2.5 , reverse_x = FALSE,reverse_y = TRUE,space_width = 0.7,space_height = 0.8)
 
-## ---- echo = TRUE, results='asis'---------------------------------------------
+## ----echo = TRUE, results='asis'----------------------------------------------
 plot_design.factorial_crd(outdesign,ncols=6,nrows=3, width = 1, height = 2.5 , reverse_x = FALSE,reverse_y = TRUE, factor_name = "B")
 
-## ---- echo = TRUE, results='asis'---------------------------------------------
+## ----echo = TRUE, results='asis'----------------------------------------------
 set.seed(129984)
 trt<-c(3,2) # factorial 3x2
 outdesign <- design.ab(trt, r=3, serie=2,design = 'crd')
 plot_design.factorial_crd(outdesign,ncols=3,nrows=6, width = 1, height = 2.5 , reverse_x = FALSE,reverse_y = TRUE, factor_name = "B")
 
-## ---- echo = TRUE, results='asis'---------------------------------------------
+## ----echo = TRUE, results='asis'----------------------------------------------
 set.seed(129866478)
 trt<-c(3,2) # factorial 3x2
 outdesign <- design.ab(trt, r=3, serie=2,design = 'crd')
 plot_design.factorial_crd(outdesign,ncols=3,nrows=6, width = 1, height = 2.5 , reverse_x = FALSE,reverse_y = TRUE, factor_name = "B") + theme_poster()
 
-## ---- echo = TRUE, results='asis'---------------------------------------------
+## ----echo = TRUE, results='asis'----------------------------------------------
 set.seed(12986)
 trt<-c(3,2) # factorial 3x2
 outdesign <- design.ab(trt, r=3, serie=2,design = 'crd')
 
 plot_design.factorial_crd(outdesign,ncols=3,nrows=6, width = 1, height = 2.5 , reverse_x = FALSE,reverse_y = TRUE, factor_name = "B") + theme_pres()
 
-## ---- echo = TRUE, results='asis'---------------------------------------------
+## ----echo = TRUE, results='asis'----------------------------------------------
 trt<-c(3,2) # factorial 3x2
 outdesign <- design.ab(trt, r=3, serie=2,design = 'crd')
 plot_design.factorial_crd(outdesign,ncols=3,nrows=6, width = 1, height = 2.5 , reverse_x = FALSE,reverse_y = TRUE, factor_name = "B") + theme_pres() + scale_fill_viridis_d()
